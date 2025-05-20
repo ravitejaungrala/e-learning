@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Programming - LearnHub</title>
+  <style>
+     body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background-color:#2C7D89;
+      color: white;
+      width: 100%;
+      position: fixed;
+      z-index: 1000;
+      height: 60px;
+      top: 0;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .container {
+      display: flex;
+      flex: 1;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #2C7D89;
+      position: fixed;
+      height: 100%;
+      top: 0;
+      left: 0;
+      padding-top: 60px; /* Push below header */
+    }
+    .sidebar.hide {
+      transform: translateX(-100%);
+    }
+    .nav-links ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px; /* Add margin-top to push the lessons down */
+}
+
+.nav-links ul li {
+  margin: 10px 0; /* Optional, you can adjust this margin for spacing between list items */
+}
+    .nav-links ul li a {
+      display: block;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .nav-links ul li a:hover {
+      background: #555;
+    }
+
+   
+    
+    .progress-overall {
+      margin-top: 20px;
+      padding: 10px;
+      background: #4CAF50;
+      border-radius: 10px;
+      color: white;
+      text-align: center;
+    }
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+      margin-top: 120px; /* Increased margin-top for more space */
+      flex-grow: 1;
+    }
+
+    .content {
+      flex: 1;
+      padding: 2em;
+      overflow-y: auto;
+    }
+
+    .lesson-container {
+      display: none;
+    }
+    .lesson {
+      padding: 20px;
+      margin: 20px 0;
+      background-color: #f4f4f4;
+      border-radius: 5px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 315px;
+      border: none;
+    }
+
+    .quiz {
+      display: none;
+      margin-top: 1em;
+      padding: 1em;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+
+    .quiz h3 {
+      margin-bottom: 1em;
+    }
+
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+    }
+
+    .quiz-options li {
+      margin-bottom: 10px;
+    }
+
+    .result {
+      display: none;
+      margin-top: 1em;
+      padding: 1em;
+      border: 1px solid #4CAF50;
+      border-radius: 10px;
+      background: #dff0d8;
+    }
+
+    .result h3 {
+      color: #4CAF50;
+    }
+
+    .progress-tracker {
+      display: none;
+      margin-top: 1em;
+      font-size: 1.2em;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #333;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 18px;
+      transition: background 0.3s;
+      z-index: 999;
+    }
+
+    .toggle-btn:hover {
+      background: #575757;
+    }
+
+   
+
+      /* Mobile view styles */
+      @media (max-width: 768px) {
+      .sidebar {
+        display: none; /* Hide sidebar on mobile */
+      }
+
+      .menu-toggle {
+        display: block; /* Show menu icon on mobile */
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background-color: #2C7D89;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 250px;
+        height: calc(100vh - 60px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding-top: 80px;
+      }
+      .nav-links ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 2px; /* Add margin-top to push the lessons down */
+}
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+    <div class="logo">Java Programming-Topics</div>
+  </header>
+
+  <div class="sidebar nav-links ">
+      <h2>Topics</h2>
+      <ul>
+        <li><a onclick="showLesson(1)">Introduction to Java Programming</a></li>
+        <li><a onclick="showLesson(2)">Variables and Data Types</a></li>
+        <li><a onclick="showLesson(3)">Control Flow Statements</a></li>
+        <li><a onclick="showLesson(4)">Object-Oriented Programming Concepts</a></li>
+        <li><a onclick="showLesson(5)">Java Collections Framework</a></li>
+        <li><a onclick="showLesson(6)">Exception Handling</a></li>
+        <li><a onclick="showLesson(7)">File I/O in Java</a></li>
+        <li><a onclick="showLesson(8)">Multithreading in Java</a></li>
+        <li><a onclick="showLesson(9)">Java Streams and Lambda Expressions</a></li>
+        <li><a onclick="showLesson(10)">Java GUI Programming (Swing, JavaFX)</a></li>
+    </ul>
+    
+      <div id="overall-progress" class="progress-overall">
+        Overall Progress: 0%
+      </div>
+    </div>
+    <div class="main-content">
+        <!-- Lesson 1 -->
+        <div id="lesson-1" class="lesson-container">
+            <h2>Introduction to Java Programming</h2>
+            <iframe id="video-1" src="https://www.youtube.com/embed/grEKMHpH9xk" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(1)">Complete Video</button>
+    
+            <div id="quiz-1" class="quiz">
+                <h3>Quiz: Introduction to Java Programming</h3>
+                <div id="question-1" class="question"></div>
+                <ul id="options-1" class="quiz-options"></ul>
+                <button onclick="nextQuestion(1)" id="next-btn-1">Next</button>
+            </div>
+    
+            <div id="result-1" class="result"></div>
+            <div id="progress-tracker-1" class="progress-tracker"></div>
+        </div>
+    
+        <!-- Lesson 2 -->
+        <div id="lesson-2" class="lesson-container">
+            <h2>Variables and Data Types</h2>
+            <iframe id="video-2" src="https://www.youtube.com/embed/xk4whv4yNq0" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(2)">Complete Video</button>
+    
+            <div id="quiz-2" class="quiz">
+                <h3>Quiz: Variables and Data Types</h3>
+                <div id="question-2" class="question"></div>
+                <ul id="options-2" class="quiz-options"></ul>
+                <button onclick="nextQuestion(2)" id="next-btn-2">Next</button>
+            </div>
+    
+            <div id="result-2" class="result"></div>
+            <div id="progress-tracker-2" class="progress-tracker"></div>
+        </div>
+    
+        <!-- Lesson 3 -->
+        <div id="lesson-3" class="lesson-container">
+            <h2>Control Flow Statements</h2>
+            <iframe id="video-3" src="https://www.youtube.com/embed/YdXrptntMi8" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(3)">Complete Video</button>
+    
+            <div id="quiz-3" class="quiz">
+                <h3>Quiz: Control Flow Statements</h3>
+                <div id="question-3" class="question"></div>
+                <ul id="options-3" class="quiz-options"></ul>
+                <button onclick="nextQuestion(3)" id="next-btn-3">Next</button>
+            </div>
+    
+            <div id="result-3" class="result"></div>
+            <div id="progress-tracker-3" class="progress-tracker"></div>
+        </div>
+    
+        <!-- Lesson 4 -->
+        <div id="lesson-4" class="lesson-container">
+            <h2>Object-Oriented Programming Concepts</h2>
+            <iframe id="video-4" src="https://www.youtube.com/embed/pTB0EiLXUC8" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(4)">Complete Video</button>
+    
+            <div id="quiz-4" class="quiz">
+                <h3>Quiz: Object-Oriented Programming Concepts</h3>
+                <div id="question-4" class="question"></div>
+                <ul id="options-4" class="quiz-options"></ul>
+                <button onclick="nextQuestion(4)" id="next-btn-4">Next</button>
+            </div>
+    
+            <div id="result-4" class="result"></div>
+            <div id="progress-tracker-4" class="progress-tracker"></div>
+        </div>
+    
+        <!-- Lesson 5 -->
+        <div id="lesson-5" class="lesson-container">
+            <h2>Java Collections Framework</h2>
+            <iframe id="video-5" src="https://www.youtube.com/embed/3vjoX1Tovok" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(5)">Complete Video</button>
+    
+            <div id="quiz-5" class="quiz">
+                <h3>Quiz: Java Collections Framework</h3>
+                <div id="question-5" class="question"></div>
+                <ul id="options-5" class="quiz-options"></ul>
+                <button onclick="nextQuestion(5)" id="next-btn-5">Next</button>
+            </div>
+    
+            <div id="result-5" class="result"></div>
+            <div id="progress-tracker-5" class="progress-tracker"></div>
+        </div>
+    
+        <!-- Lesson 6 -->
+        <div id="lesson-6" class="lesson-container">
+            <h2>Exception Handling</h2>
+            <iframe id="video-6" src="https://www.youtube.com/embed/7J6xvYjq9Ic" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(6)">Complete Video</button>
+    
+            <div id="quiz-6" class="quiz">
+                <h3>Quiz: Exception Handling</h3>
+                <div id="question-6" class="question"></div>
+                <ul id="options-6" class="quiz-options"></ul>
+                <button onclick="nextQuestion(6)" id="next-btn-6">Next</button>
+            </div>
+    
+            <div id="result-6" class="result"></div>
+            <div id="progress-tracker-6" class="progress-tracker"></div>
+        </div>
+    
+        <!-- Lesson 7 -->
+        <div id="lesson-7" class="lesson-container">
+            <h2>File I/O in Java</h2>
+            <iframe id="video-7" src="https://www.youtube.com/embed/9IfrY1FxaHE" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(7)">Complete Video</button>
+    
+            <div id="quiz-7" class="quiz">
+                <h3>Quiz: File I/O in Java</h3>
+                <div id="question-7" class="question"></div>
+                <ul id="options-7" class="quiz-options"></ul>
+                <button onclick="nextQuestion(7)" id="next-btn-7">Next</button>
+            </div>
+    
+            <div id="result-7" class="result"></div>
+            <div id="progress-tracker-7" class="progress-tracker"></div>
+        </div>
+    
+        <!-- Lesson 8 -->
+        <div id="lesson-8" class="lesson-container">
+            <h2>Multithreading in Java</h2>
+            <iframe id="video-8" src="https://www.youtube.com/embed/5HLkgNfTseY" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(8)">Complete Video</button>
+    
+            <div id="quiz-8" class="quiz">
+                <h3>Quiz: Multithreading in Java</h3>
+                <div id="question-8" class="question"></div>
+                <ul id="options-8" class="quiz-options"></ul>
+                <button onclick="nextQuestion(8)" id="next-btn-8">Next</button>
+            </div>
+    
+            <div id="result-8" class="result"></div>
+            <div id="progress-tracker-8" class="progress-tracker"></div>
+        </div>
+    
+        <!-- Lesson 9 -->
+        <div id="lesson-9" class="lesson-container">
+            <h2>Java Streams and Lambda Expressions</h2>
+            <iframe id="video-9" src="https://www.youtube.com/embed/0jfeWfGkBDM" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(9)">Complete Video</button>
+    
+            <div id="quiz-9" class="quiz">
+                <h3>Quiz: Java Streams and Lambda Expressions</h3>
+                <div id="question-9" class="question"></div>
+                <ul id="options-9" class="quiz-options"></ul>
+                <button onclick="nextQuestion(9)" id="next-btn-9">Next</button>
+            </div>
+    
+            <div id="result-9" class="result"></div>
+            <div id="progress-tracker-9" class="progress-tracker"></div>
+        </div>
+    
+        <!-- Lesson 10 -->
+        <div id="lesson-10" class="lesson-container">
+            <h2>Java GUI Programming (Swing, JavaFX)</h2>
+            <iframe id="video-10" src="https://www.youtube.com/embed/Y5xpY4V50zM" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(10)">Complete Video</button>
+    
+            <div id="quiz-10" class="quiz">
+                <h3>Quiz: Java GUI Programming</h3>
+                <div id="question-10" class="question"></div>
+                <ul id="options-10" class="quiz-options"></ul>
+                <button onclick="nextQuestion(10)" id="next-btn-10">Next</button>
+            </div>
+    
+            <div id="result-10" class="result"></div>
+            <div id="progress-tracker-10" class="progress-tracker"></div>
+        </div>
+    </div>
+    
+    <script>
+       const lessons = [
+  {
+    id: 1,
+    title: "Introduction to Java Programming",
+    quiz: [
+      { question: "What is Java?", options: ["A type of database", "A programming language", "An operating system", "A web framework"], correct: 1 },
+      { question: "Who is the creator of Java?", options: ["James Gosling", "Dennis Ritchie", "Guido van Rossum", "Bjarne Stroustrup"], correct: 0 },
+      { question: "What does JVM stand for?", options: ["Java Virtual Machine", "Java Variable Method", "Java Virtual Memory", "Java Version Manager"], correct: 0 },
+      { question: "Which of these is a feature of Java?", options: ["Cross-platform", "Low-level language", "No memory management", "Not object-oriented"], correct: 0 },
+      { question: "What is the file extension for a compiled Java class?", options: [".java", ".class", ".exe", ".jar"], correct: 1 },
+    ],
+    completed: false
+  },
+  {
+    id: 2,
+    title: "Variables and Data Types",
+    quiz: [
+      { question: "Which of the following is a primitive data type in Java?", options: ["String", "Integer", "Boolean", "ArrayList"], correct: 2 },
+      { question: "Which keyword is used to declare a constant in Java?", options: ["final", "static", "const", "constant"], correct: 0 },
+      { question: "What is the default value of an int in Java?", options: ["0", "1", "null", "undefined"], correct: 0 },
+      { question: "What data type would be used to store a decimal number?", options: ["int", "char", "double", "boolean"], correct: 2 },
+      { question: "Which of these is not a valid Java identifier?", options: ["_variable", "Variable123", "2variable", "$variable"], correct: 2 },
+    ],
+    completed: false
+  },
+  {
+    id: 3,
+    title: "Control Flow Statements",
+    quiz: [
+      { question: "Which of these is used to skip the current iteration of a loop in Java?", options: ["continue", "break", "exit", "return"], correct: 0 },
+      { question: "Which keyword is used to exit a loop in Java?", options: ["return", "exit", "break", "continue"], correct: 2 },
+      { question: "Which control structure is used for decision-making in Java?", options: ["if", "switch", "for", "while"], correct: 0 },
+      { question: "What is the output of the following code snippet? `int x = 5; if(x > 3) { System.out.println('A'); } else { System.out.println('B'); }`", options: ["A", "B", "Error", "Nothing"], correct: 0 },
+      { question: "What type of loop is the most efficient for iterating through a collection in Java?", options: ["for loop", "while loop", "foreach loop", "do-while loop"], correct: 2 },
+    ],
+    completed: false
+  },
+  {
+    id: 4,
+    title: "Object-Oriented Programming Concepts",
+    quiz: [
+      { question: "Which of the following is a key concept of OOP?", options: ["Encapsulation", "Inheritance", "Polymorphism", "All of the above"], correct: 3 },
+      { question: "In Java, a class can have how many constructors?", options: ["1", "No limit", "2", "Only one"], correct: 1 },
+      { question: "What is inheritance in Java?", options: ["A way to group similar objects", "A way to make one class inherit methods and properties of another class", "A type of interface", "None of the above"], correct: 1 },
+      { question: "Which keyword is used to create an object in Java?", options: ["new", "create", "object", "instance"], correct: 0 },
+      { question: "What is the access modifier that allows access within the same package?", options: ["private", "protected", "public", "default"], correct: 3 },
+    ],
+    completed: false
+  },
+  {
+    id: 5,
+    title: "Java Collections Framework",
+    quiz: [
+      { question: "Which class implements the List interface?", options: ["ArrayList", "HashSet", "TreeMap", "HashMap"], correct: 0 },
+      { question: "Which collection class is sorted in Java?", options: ["ArrayList", "LinkedList", "HashSet", "TreeSet"], correct: 3 },
+      { question: "Which interface does a HashMap implement?", options: ["List", "Set", "Map", "Queue"], correct: 2 },
+      { question: "Which method is used to add elements to a List?", options: ["add()", "insert()", "push()", "insertAt()"], correct: 0 },
+      { question: "What is the default initial capacity of an ArrayList?", options: ["10", "5", "20", "15"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 6,
+    title: "Exception Handling",
+    quiz: [
+      { question: "Which keyword is used to throw an exception in Java?", options: ["throw", "throws", "exception", "error"], correct: 0 },
+      { question: "Which type of exception is checked at compile time?", options: ["Checked Exception", "Unchecked Exception", "Error", "RuntimeException"], correct: 0 },
+      { question: "What does the `finally` block do?", options: ["Handles exceptions", "Executes always, whether an exception is thrown or not", "Creates an exception", "None of the above"], correct: 1 },
+      { question: "What is the parent class of all exceptions in Java?", options: ["Throwable", "Error", "Exception", "RuntimeException"], correct: 0 },
+      { question: "Which of these is used for catching exceptions in Java?", options: ["try", "throw", "catch", "finally"], correct: 2 },
+    ],
+    completed: false
+  },
+  {
+    id: 7,
+    title: "File I/O in Java",
+    quiz: [
+      { question: "Which class is used for reading and writing files in Java?", options: ["FileReader", "FileWriter", "BufferedReader", "All of the above"], correct: 3 },
+      { question: "What is used to read input from a file in Java?", options: ["FileReader", "Scanner", "BufferedReader", "All of the above"], correct: 2 },
+      { question: "Which method is used to write to a file?", options: ["write()", "println()", "print()", "insert()"], correct: 0 },
+      { question: "Which of these methods is used to create a file in Java?", options: ["create()", "makeFile()", "newFile()", "createNewFile()"], correct: 3 },
+      { question: "Which class in Java handles file exceptions?", options: ["IOException", "FileNotFoundException", "Both", "None of the above"], correct: 2 },
+    ],
+    completed: false
+  },
+  {
+    id: 8,
+    title: "Multithreading in Java",
+    quiz: [
+      { question: "Which method is used to start a thread in Java?", options: ["start()", "run()", "execute()", "initialize()"], correct: 0 },
+      { question: "Which class is used to create a thread in Java?", options: ["Thread", "Runnable", "Executor", "Callable"], correct: 0 },
+      { question: "Which of these methods is used to pause a thread in Java?", options: ["sleep()", "wait()", "pause()", "stop()"], correct: 0 },
+      { question: "What is the purpose of multithreading?", options: ["To run multiple threads concurrently", "To use memory efficiently", "To process data in sequence", "None of the above"], correct: 0 },
+      { question: "Which of the following is used for synchronizing methods in Java?", options: ["sync", "synchronized", "lock", "volatile"], correct: 1 },
+    ],
+    completed: false
+  },
+  {
+    id: 9,
+    title: "Java Streams and Lambda Expressions",
+    quiz: [
+      { question: "What is the purpose of lambda expressions in Java?", options: ["To create anonymous methods", "To handle exceptions", "To create new classes", "To create new objects"], correct: 0 },
+      { question: "Which class in Java uses streams to process data?", options: ["Stream", "ArrayList", "Collections", "Arrays"], correct: 0 },
+      { question: "Which method is used to filter data in a stream?", options: ["filter()", "map()", "collect()", "reduce()"], correct: 0 },
+      { question: "What is the advantage of using streams in Java?", options: ["Lazy evaluation", "Parallel processing", "Both of the above", "None of the above"], correct: 2 },
+      { question: "Which keyword is used for lambda expressions?", options: ["->", ":", "=>", "->>"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 10,
+    title: "Java GUI Programming (Swing, JavaFX)",
+    quiz: [
+      { question: "Which library is used for building GUI applications in Java?", options: ["Swing", "JavaFX", "AWT", "All of the above"], correct: 3 },
+      { question: "Which method is used to add a component to a container in Swing?", options: ["addComponent()", "add()", "setComponent()", "attach()"], correct: 1 },
+      { question: "What is the purpose of the `JFrame` class in Swing?", options: ["To create a window", "To handle events", "To create buttons", "To store data"], correct: 0 },
+      { question: "Which of the following is used for event handling in Java?", options: ["Listener", "Event", "Adapter", "All of the above"], correct: 3 },
+      { question: "What is the purpose of the `ActionEvent` class in Java?", options: ["To handle button clicks", "To process input fields", "To manage data storage", "To update the UI"], correct: 0 },
+    ],
+    completed: false
+  }
+];
+
+       
+    let currentQuestion = {};
+    let scores = {};
+    let overallCompleted = 0;
+
+    function showLesson(lessonId) {
+      document.querySelectorAll(".lesson-container").forEach(container => container.style.display = "none");
+      document.getElementById(`lesson-${lessonId}`).style.display = "block";
+    }
+
+    function unlockQuiz(lessonId) {
+      document.getElementById(`quiz-${lessonId}`).style.display = "block";
+      scores[lessonId] = 0;
+      loadQuestion(lessonId, 0);
+    }
+
+    function loadQuestion(lessonId, questionIndex) {
+      const lesson = lessons.find(l => l.id === lessonId);
+      currentQuestion[lessonId] = questionIndex;
+
+      const questionElement = document.getElementById(`question-${lessonId}`);
+      const optionsElement = document.getElementById(`options-${lessonId}`);
+      const question = lesson.quiz[questionIndex];
+
+      questionElement.innerText = question.question;
+      optionsElement.innerHTML = question.options.map((option, i) => `
+        <li>
+          <input type="radio" id="option-${lessonId}-${i}" name="quiz-${lessonId}" value="${i}">
+          <label for="option-${lessonId}-${i}">${option}</label>
+        </li>`).join("");
+
+      document.getElementById(`next-btn-${lessonId}`).innerText = questionIndex < lesson.quiz.length - 1 ? "Next" : "Submit";
+    }
+
+    function nextQuestion(lessonId) {
+      const lesson = lessons.find(l => l.id === lessonId);
+      const questionIndex = currentQuestion[lessonId];
+      const selectedOption = document.querySelector(`input[name="quiz-${lessonId}"]:checked`);
+
+      if (!selectedOption) {
+        alert("Please select an answer!");
+        return;
+      }
+
+      if (parseInt(selectedOption.value) === lesson.quiz[questionIndex].correct) {
+        scores[lessonId]++;
+      }
+
+      if (questionIndex < lesson.quiz.length - 1) {
+        loadQuestion(lessonId, questionIndex + 1);
+      } else {
+        showResult(lessonId);
+      }
+    }
+
+    function showResult(lessonId) {
+      document.getElementById(`quiz-${lessonId}`).style.display = "none";
+
+      const resultElement = document.getElementById(`result-${lessonId}`);
+      const progressTracker = document.getElementById(`progress-tracker-${lessonId}`);
+      const totalQuestions = lessons.find(l => l.id === lessonId).quiz.length;
+
+      resultElement.style.display = "block";
+      resultElement.innerHTML = `<h3>Your Score: ${scores[lessonId]} / ${totalQuestions}</h3>`;
+      progressTracker.style.display = "block";
+      progressTracker.innerText = `Progress: ${scores[lessonId]} / ${totalQuestions}`;
+
+      lessons.find(l => l.id === lessonId).completed = true;
+      updateOverallProgress();
+    }
+
+    function updateOverallProgress() {
+      const completedLessons = lessons.filter(lesson => lesson.completed).length;
+      const overallProgress = Math.round((completedLessons / lessons.length) * 100);
+      document.getElementById("overall-progress").innerText = `Overall Progress: ${overallProgress}%`;
+    }
+
+    document.querySelector('.menu-toggle').addEventListener('click', function () {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('show');
+    });
+
+    // Show Selected Lesson
+    function showLesson(lessonId) {
+      const lessonContainers = document.querySelectorAll('.lesson-container');
+      lessonContainers.forEach(container => (container.style.display = 'none'));
+      const selectedLesson = document.getElementById(`lesson-${lessonId}`);
+      if (selectedLesson) selectedLesson.style.display = 'block';
+
+      // Close Sidebar on Mobile After Selection
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.remove('show');
+    }
+  </script>
+</body>
+</html>

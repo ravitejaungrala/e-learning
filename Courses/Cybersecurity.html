@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber security - E-Learning Platform</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background-color:#2C7D89;
+      color: white;
+      width: 100%;
+      position: fixed;
+      z-index: 1000;
+      height: 60px;
+      top: 0;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .container {
+      display: flex;
+      flex: 1;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #2C7D89;
+      position: fixed;
+      height: 100%;
+      top: 0;
+      left: 0;
+      padding-top: 60px; /* Push below header */
+    }
+    .sidebar.hide {
+      transform: translateX(-100%);
+    }
+    .nav-links ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px; /* Add margin-top to push the lessons down */
+}
+
+.nav-links ul li {
+  margin: 10px 0; /* Optional, you can adjust this margin for spacing between list items */
+}
+    .nav-links ul li a {
+      display: block;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .nav-links ul li a:hover {
+      background: #555;
+    }
+
+   
+    
+    .progress-overall {
+      margin-top: 20px;
+      padding: 10px;
+      background: #4CAF50;
+      border-radius: 10px;
+      color: white;
+      text-align: center;
+    }
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+      margin-top: 120px; /* Increased margin-top for more space */
+      flex-grow: 1;
+    }
+
+    .content {
+      flex: 1;
+      padding: 2em;
+      overflow-y: auto;
+    }
+
+    .lesson-container {
+      display: none;
+    }
+    .lesson {
+      padding: 20px;
+      margin: 20px 0;
+      background-color: #f4f4f4;
+      border-radius: 5px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 315px;
+      border: none;
+    }
+
+    .quiz {
+      display: none;
+      margin-top: 1em;
+      padding: 1em;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+
+    .quiz h3 {
+      margin-bottom: 1em;
+    }
+
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+    }
+
+    .quiz-options li {
+      margin-bottom: 10px;
+    }
+
+    .result {
+      display: none;
+      margin-top: 1em;
+      padding: 1em;
+      border: 1px solid #4CAF50;
+      border-radius: 10px;
+      background: #dff0d8;
+    }
+
+    .result h3 {
+      color: #4CAF50;
+    }
+
+    .progress-tracker {
+      display: none;
+      margin-top: 1em;
+      font-size: 1.2em;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #333;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 18px;
+      transition: background 0.3s;
+      z-index: 999;
+    }
+
+    .toggle-btn:hover {
+      background: #575757;
+    }
+
+   
+
+      /* Mobile view styles */
+      @media (max-width: 768px) {
+      .sidebar {
+        display: none; /* Hide sidebar on mobile */
+      }
+
+      .menu-toggle {
+        display: block; /* Show menu icon on mobile */
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background-color: #2C7D89;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 250px;
+        height: calc(100vh - 60px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding-top: 80px;
+      }
+      .nav-links ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 2px; /* Add margin-top to push the lessons down */
+}
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+    <div class="logo">Cyber Security-Topics</div>
+  </header>
+
+  <div class="sidebar nav-links ">
+    
+        <h2>Topics</h2>
+        <ul>
+            <li><a onclick="showLesson(1)">Introduction to Cybersecurity</a></li>
+            <li><a onclick="showLesson(2)">Types of Cyber Threats</a></li>
+            <li><a onclick="showLesson(3)">Network Security Basics</a></li>
+            <li><a onclick="showLesson(4)">Cryptography and Encryption</a></li>
+            <li><a onclick="showLesson(5)">Web Security & OWASP</a></li>
+            <li><a onclick="showLesson(6)">Incident Response & Forensics</a></li>
+            <li><a onclick="showLesson(7)">Ethical Hacking Basics</a></li>
+            <li><a onclick="showLesson(8)">Advanced Cybersecurity: Threat Hunting</a></li>
+        </ul>
+        <div id="overall-progress" class="progress-overall">
+            Overall Progress: 0%
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Lesson 1 -->
+        <div id="lesson-1" class="lesson-container">
+            <h2>Introduction to Cybersecurity</h2>
+            <iframe id="video-1" src="https://www.youtube.com/embed/1nfcXbflSHs?autoplay=1" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(1)">Complete Video</button>
+
+            <div id="quiz-1" class="quiz">
+                <h3>Quiz: Introduction to Cybersecurity</h3>
+                <div id="question-1" class="question"></div>
+                <ul id="options-1" class="quiz-options"></ul>
+                <button onclick="nextQuestion(1)" id="next-btn-1">Next</button>
+            </div>
+
+            <div id="result-1" class="result"></div>
+            <div id="progress-tracker-1" class="progress-tracker"></div>
+        </div>
+
+        <!-- Lesson 2 -->
+        <div id="lesson-2" class="lesson-container">
+            <h2>Types of Cyber Threats</h2>
+            <iframe id="video-2" src="https://www.youtube.com/embed/KwCoQyx7DL8" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(2)">Complete Video</button>
+
+            <div id="quiz-2" class="quiz">
+                <h3>Quiz: Types of Cyber Threats</h3>
+                <div id="question-2" class="question"></div>
+                <ul id="options-2" class="quiz-options"></ul>
+                <button onclick="nextQuestion(2)" id="next-btn-2">Next</button>
+            </div>
+
+            <div id="result-2" class="result"></div>
+            <div id="progress-tracker-2" class="progress-tracker"></div>
+        </div>
+
+        <!-- Lesson 3 -->
+        <div id="lesson-3" class="lesson-container">
+            <h2>Network Security Basics</h2>
+            <iframe id="video-3" src="https://www.youtube.com/embed/cpzIqSgnoPA" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(3)">Complete Video</button>
+
+            <div id="quiz-3" class="quiz">
+                <h3>Quiz: Network Security Basics</h3>
+                <div id="question-3" class="question"></div>
+                <ul id="options-3" class="quiz-options"></ul>
+                <button onclick="nextQuestion(3)" id="next-btn-3">Next</button>
+            </div>
+
+            <div id="result-3" class="result"></div>
+            <div id="progress-tracker-3" class="progress-tracker"></div>
+        </div>
+
+        <!-- Lesson 4 -->
+        <div id="lesson-4" class="lesson-container">
+            <h2>Cryptography and Encryption</h2>
+            <iframe id="video-4" src="https://www.youtube.com/embed/4T8zY2XPVzg" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(4)">Complete Video</button>
+
+            <div id="quiz-4" class="quiz">
+                <h3>Quiz: Cryptography and Encryption</h3>
+                <div id="question-4" class="question"></div>
+                <ul id="options-4" class="quiz-options"></ul>
+                <button onclick="nextQuestion(4)" id="next-btn-4">Next</button>
+            </div>
+
+            <div id="result-4" class="result"></div>
+            <div id="progress-tracker-4" class="progress-tracker"></div>
+        </div>
+
+        <!-- Lesson 5 -->
+        <div id="lesson-5" class="lesson-container">
+            <h2>Web Security & OWASP</h2>
+            <iframe id="video-5" src="https://www.youtube.com/embed/9wYyb9pDwz4" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(5)">Complete Video</button>
+
+            <div id="quiz-5" class="quiz">
+                <h3>Quiz: Web Security & OWASP</h3>
+                <div id="question-5" class="question"></div>
+                <ul id="options-5" class="quiz-options"></ul>
+                <button onclick="nextQuestion(5)" id="next-btn-5">Next</button>
+            </div>
+
+            <div id="result-5" class="result"></div>
+            <div id="progress-tracker-5" class="progress-tracker"></div>
+        </div>
+
+        <!-- Lesson 6 -->
+        <div id="lesson-6" class="lesson-container">
+            <h2>Incident Response & Forensics</h2>
+            <iframe id="video-6" src="https://www.youtube.com/embed/po7UQ6zXJ_4" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(6)">Complete Video</button>
+
+            <div id="quiz-6" class="quiz">
+                <h3>Quiz: Incident Response & Forensics</h3>
+                <div id="question-6" class="question"></div>
+                <ul id="options-6" class="quiz-options"></ul>
+                <button onclick="nextQuestion(6)" id="next-btn-6">Next</button>
+            </div>
+
+            <div id="result-6" class="result"></div>
+            <div id="progress-tracker-6" class="progress-tracker"></div>
+        </div>
+
+        <!-- Lesson 7 -->
+        <div id="lesson-7" class="lesson-container">
+            <h2>Ethical Hacking Basics</h2>
+            <iframe id="video-7" src="https://www.youtube.com/embed/24tiw3xn1o4" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(7)">Complete Video</button>
+
+            <div id="quiz-7" class="quiz">
+                <h3>Quiz: Ethical Hacking Basics</h3>
+                <div id="question-7" class="question"></div>
+                <ul id="options-7" class="quiz-options"></ul>
+                <button onclick="nextQuestion(7)" id="next-btn-7">Next</button>
+            </div>
+
+            <div id="result-7" class="result"></div>
+            <div id="progress-tracker-7" class="progress-tracker"></div>
+        </div>
+
+        <!-- Lesson 8 -->
+        <div id="lesson-8" class="lesson-container">
+            <h2>Advanced Cybersecurity: Threat Hunting</h2>
+            <iframe id="video-8" src="https://www.youtube.com/embed/dAZ2oyQplHs" allowfullscreen></iframe>
+            <button onclick="unlockQuiz(8)">Complete Video</button>
+
+            <div id="quiz-8" class="quiz">
+                <h3>Quiz: Advanced Cybersecurity: Threat Hunting</h3>
+                <div id="question-8" class="question"></div>
+                <ul id="options-8" class="quiz-options"></ul>
+                <button onclick="nextQuestion(8)" id="next-btn-8">Next</button>
+            </div>
+
+            <div id="result-8" class="result"></div>
+            <div id="progress-tracker-8" class="progress-tracker"></div>
+        </div>
+    </div>
+</div>
+
+
+  <script>
+    const lessons = [
+  {
+    id: 1,
+    title: "Introduction to Cybersecurity",
+    quiz: [
+      { question: "What is the main goal of cybersecurity?", options: ["Protecting data", "Learning new technologies", "Improving business performance", "None of the above"], correct: 0 },
+      { question: "Which of the following is a key aspect of cybersecurity?", options: ["Confidentiality", "Availability", "Integrity", "All of the above"], correct: 3 },
+      { question: "Which entity is responsible for enforcing cybersecurity laws?", options: ["Governments", "Hackers", "Corporations", "Users"], correct: 0 },
+      { question: "What does 'CIA Triad' stand for?", options: ["Confidentiality, Integrity, Availability", "Code, Integrity, Authentication", "Confidentiality, Integrity, Access", "Control, Information, Availability"], correct: 0 },
+      { question: "What is the most common form of cyber attack?", options: ["Phishing", "DDoS", "Malware", "Spyware"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 2,
+    title: "Types of Cyber Threats",
+    quiz: [
+      { question: "Which of the following is a type of malware?", options: ["Virus", "Trojan", "Worm", "All of the above"], correct: 3 },
+      { question: "What is phishing?", options: ["A type of hacking", "A type of malware", "A method of tricking users into giving personal info", "None of the above"], correct: 2 },
+      { question: "What is a DDoS attack?", options: ["Data-driven denial of service", "Distributed denial of service", "Direct denial of service", "None of the above"], correct: 1 },
+      { question: "Which cyber threat involves encrypting files for ransom?", options: ["Ransomware", "Spyware", "Trojan", "Worm"], correct: 0 },
+      { question: "What type of attack involves intercepting and altering communication?", options: ["Man-in-the-middle", "Phishing", "DoS", "Brute Force"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 3,
+    title: "Network Security Basics",
+    quiz: [
+      { question: "Which of these is a network security device?", options: ["Firewall", "Router", "Switch", "All of the above"], correct: 0 },
+      { question: "What is the purpose of a VPN?", options: ["Secure communication over the internet", "Increase browsing speed", "Track online activity", "None of the above"], correct: 0 },
+      { question: "Which protocol is used to secure data over a network?", options: ["HTTP", "HTTPS", "FTP", "SMTP"], correct: 1 },
+      { question: "What is a common method to prevent unauthorized access to a network?", options: ["Password", "Firewall", "Encryption", "All of the above"], correct: 3 },
+      { question: "What is the purpose of a DMZ in network security?", options: ["To separate internal and external networks", "To encrypt data", "To monitor network traffic", "None of the above"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 4,
+    title: "Cryptography and Encryption",
+    quiz: [
+      { question: "Which of these is a symmetric encryption algorithm?", options: ["AES", "RSA", "ECC", "Diffie-Hellman"], correct: 0 },
+      { question: "Which key is used for decryption in asymmetric encryption?", options: ["Private key", "Public key", "Symmetric key", "Shared key"], correct: 0 },
+      { question: "What does SSL stand for?", options: ["Secure Sockets Layer", "Secure Software Layer", "Simple Security Layer", "None of the above"], correct: 0 },
+      { question: "Which of the following is used for digital signatures?", options: ["Public key encryption", "Symmetric encryption", "Hashing", "All of the above"], correct: 0 },
+      { question: "What is a hash function?", options: ["A method for encrypting data", "A function that generates a fixed-size output from input data", "A type of encryption", "None of the above"], correct: 1 },
+    ],
+    completed: false
+  },
+  {
+    id: 5,
+    title: "Web Security & OWASP",
+    quiz: [
+      { question: "Which of the following is part of the OWASP Top 10?", options: ["SQL Injection", "Buffer Overflow", "Privilege Escalation", "None of the above"], correct: 0 },
+      { question: "What does SQL Injection target?", options: ["Web servers", "Databases", "Network infrastructure", "Operating systems"], correct: 1 },
+      { question: "What is Cross-Site Scripting (XSS)?", options: ["Injecting malicious scripts into web pages", "Changing network configurations", "Spoofing DNS entries", "None of the above"], correct: 0 },
+      { question: "What is the purpose of HTTPS?", options: ["To secure communication between the client and server", "To increase website speed", "To avoid spam", "None of the above"], correct: 0 },
+      { question: "Which of the following is used to prevent Cross-Site Request Forgery (CSRF)?", options: ["Anti-CSRF tokens", "VPN", "Firewall", "None of the above"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 6,
+    title: "Incident Response & Forensics",
+    quiz: [
+      { question: "What is the first step in incident response?", options: ["Contain the incident", "Identify the incident", "Recover systems", "Notify authorities"], correct: 1 },
+      { question: "What is the purpose of digital forensics?", options: ["Recover lost data", "Analyze data for criminal activity", "Monitor network traffic", "None of the above"], correct: 1 },
+      { question: "Which tool is commonly used for digital forensics?", options: ["Wireshark", "Kali Linux", "Autopsy", "Metasploit"], correct: 2 },
+      { question: "Which of these should be preserved in a digital forensics investigation?", options: ["Logs", "Network data", "Disk images", "All of the above"], correct: 3 },
+      { question: "Which is a major goal of incident response?", options: ["Minimize damage", "Identify vulnerabilities", "Gather evidence", "All of the above"], correct: 3 },
+    ],
+    completed: false
+  },
+  {
+    id: 7,
+    title: "Ethical Hacking Basics",
+    quiz: [
+      { question: "What is the primary goal of ethical hacking?", options: ["Find vulnerabilities before malicious hackers can exploit them", "Hack into systems for fun", "Gather personal data", "None of the above"], correct: 0 },
+      { question: "Which tool is commonly used for penetration testing?", options: ["Wireshark", "Metasploit", "Nmap", "All of the above"], correct: 3 },
+      { question: "What is a vulnerability scan?", options: ["Testing for open ports", "Scanning for weaknesses in systems", "Monitoring network traffic", "None of the above"], correct: 1 },
+      { question: "Which of the following is NOT an ethical hacking phase?", options: ["Reconnaissance", "Scanning", "Exploitation", "Malicious hacking"], correct: 3 },
+      { question: "What is social engineering?", options: ["Using technical skills to breach security", "Manipulating people to divulge confidential information", "Breaking into systems", "None of the above"], correct: 1 },
+    ],
+    completed: false
+  },
+  {
+    id: 8,
+    title: "Advanced Cybersecurity: Threat Hunting",
+    quiz: [
+      { question: "What is threat hunting?", options: ["Proactively searching for potential threats", "Waiting for threats to appear", "Monitoring network traffic", "All of the above"], correct: 0 },
+      { question: "Which tool is commonly used in threat hunting?", options: ["Wireshark", "Splunk", "Snort", "All of the above"], correct: 3 },
+      { question: "What is the goal of threat hunting?", options: ["Detect and mitigate threats early", "Minimize system performance", "Prevent data breaches", "None of the above"], correct: 0 },
+      { question: "Which phase comes after threat detection in threat hunting?", options: ["Incident response", "Analysis", "Containment", "Prevention"], correct: 1 },
+      { question: "Which of these is a key skill for a threat hunter?", options: ["Analytical thinking", "Network protocol knowledge", "Scripting", "All of the above"], correct: 3 },
+    ],
+    completed: false
+  },
+];
+
+
+    let currentQuestion = {};
+    let scores = {};
+    let overallCompleted = 0;
+
+    function showLesson(lessonId) {
+      document.querySelectorAll(".lesson-container").forEach(container => container.style.display = "none");
+      document.getElementById(`lesson-${lessonId}`).style.display = "block";
+    }
+
+    function unlockQuiz(lessonId) {
+      document.getElementById(`quiz-${lessonId}`).style.display = "block";
+      scores[lessonId] = 0;
+      loadQuestion(lessonId, 0);
+    }
+
+    function loadQuestion(lessonId, questionIndex) {
+      const lesson = lessons.find(l => l.id === lessonId);
+      currentQuestion[lessonId] = questionIndex;
+
+      const questionElement = document.getElementById(`question-${lessonId}`);
+      const optionsElement = document.getElementById(`options-${lessonId}`);
+      const question = lesson.quiz[questionIndex];
+
+      questionElement.innerText = question.question;
+      optionsElement.innerHTML = question.options.map((option, i) => `
+        <li>
+          <input type="radio" id="option-${lessonId}-${i}" name="quiz-${lessonId}" value="${i}">
+          <label for="option-${lessonId}-${i}">${option}</label>
+        </li>`).join("");
+
+      document.getElementById(`next-btn-${lessonId}`).innerText = questionIndex < lesson.quiz.length - 1 ? "Next" : "Submit";
+    }
+
+    function nextQuestion(lessonId) {
+      const lesson = lessons.find(l => l.id === lessonId);
+      const questionIndex = currentQuestion[lessonId];
+      const selectedOption = document.querySelector(`input[name="quiz-${lessonId}"]:checked`);
+
+      if (!selectedOption) {
+        alert("Please select an answer!");
+        return;
+      }
+
+      if (parseInt(selectedOption.value) === lesson.quiz[questionIndex].correct) {
+        scores[lessonId]++;
+      }
+
+      if (questionIndex < lesson.quiz.length - 1) {
+        loadQuestion(lessonId, questionIndex + 1);
+      } else {
+        showResult(lessonId);
+      }
+    }
+
+    function showResult(lessonId) {
+      document.getElementById(`quiz-${lessonId}`).style.display = "none";
+
+      const resultElement = document.getElementById(`result-${lessonId}`);
+      const progressTracker = document.getElementById(`progress-tracker-${lessonId}`);
+      const totalQuestions = lessons.find(l => l.id === lessonId).quiz.length;
+
+      resultElement.style.display = "block";
+      resultElement.innerHTML = `<h3>Your Score: ${scores[lessonId]} / ${totalQuestions}</h3>`;
+      progressTracker.style.display = "block";
+      progressTracker.innerText = `Progress: ${scores[lessonId]} / ${totalQuestions}`;
+
+      lessons.find(l => l.id === lessonId).completed = true;
+      updateOverallProgress();
+    }
+
+    function updateOverallProgress() {
+      const completedLessons = lessons.filter(lesson => lesson.completed).length;
+      const overallProgress = Math.round((completedLessons / lessons.length) * 100);
+      document.getElementById("overall-progress").innerText = `Overall Progress: ${overallProgress}%`;
+    }
+
+    document.querySelector('.menu-toggle').addEventListener('click', function () {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('show');
+    });
+
+    // Show Selected Lesson
+    function showLesson(lessonId) {
+      const lessonContainers = document.querySelectorAll('.lesson-container');
+      lessonContainers.forEach(container => (container.style.display = 'none'));
+      const selectedLesson = document.getElementById(`lesson-${lessonId}`);
+      if (selectedLesson) selectedLesson.style.display = 'block';
+
+      // Close Sidebar on Mobile After Selection
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.remove('show');
+    }
+  </script>
+</body>
+</html>

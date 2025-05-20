@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python - LearnHub</title>
+  <style>
+     body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background-color:#2C7D89;
+      color: white;
+      width: 100%;
+      position: fixed;
+      z-index: 1000;
+      height: 60px;
+      top: 0;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .container {
+      display: flex;
+      flex: 1;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #2C7D89;
+      position: fixed;
+      height: 100%;
+      top: 0;
+      left: 0;
+      padding-top: 60px; /* Push below header */
+    }
+    .sidebar.hide {
+      transform: translateX(-100%);
+    }
+    .nav-links ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px; /* Add margin-top to push the lessons down */
+}
+
+.nav-links ul li {
+  margin: 10px 0; /* Optional, you can adjust this margin for spacing between list items */
+}
+    .nav-links ul li a {
+      display: block;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .nav-links ul li a:hover {
+      background: #555;
+    }
+
+   
+    
+    .progress-overall {
+      margin-top: 20px;
+      padding: 10px;
+      background: #4CAF50;
+      border-radius: 10px;
+      color: white;
+      text-align: center;
+    }
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+      margin-top: 120px; /* Increased margin-top for more space */
+      flex-grow: 1;
+    }
+
+    .content {
+      flex: 1;
+      padding: 2em;
+      overflow-y: auto;
+    }
+
+    .lesson-container {
+      display: none;
+    }
+    .lesson {
+      padding: 20px;
+      margin: 20px 0;
+      background-color: #f4f4f4;
+      border-radius: 5px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 315px;
+      border: none;
+    }
+
+    .quiz {
+      display: none;
+      margin-top: 1em;
+      padding: 1em;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+
+    .quiz h3 {
+      margin-bottom: 1em;
+    }
+
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+    }
+
+    .quiz-options li {
+      margin-bottom: 10px;
+    }
+
+    .result {
+      display: none;
+      margin-top: 1em;
+      padding: 1em;
+      border: 1px solid #4CAF50;
+      border-radius: 10px;
+      background: #dff0d8;
+    }
+
+    .result h3 {
+      color: #4CAF50;
+    }
+
+    .progress-tracker {
+      display: none;
+      margin-top: 1em;
+      font-size: 1.2em;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #333;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 18px;
+      transition: background 0.3s;
+      z-index: 999;
+    }
+
+    .toggle-btn:hover {
+      background: #575757;
+    }
+
+   
+
+      /* Mobile view styles */
+      @media (max-width: 768px) {
+      .sidebar {
+        display: none; /* Hide sidebar on mobile */
+      }
+
+      .menu-toggle {
+        display: block; /* Show menu icon on mobile */
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background-color: #2C7D89;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 250px;
+        height: calc(100vh - 60px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding-top: 80px;
+      }
+      .nav-links ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 2px; /* Add margin-top to push the lessons down */
+}
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+    <div class="logo">Pyhton Programming-Topics</div>
+  </header>
+  
+  <div class="sidebar nav-links ">
+      <h2>Topics</h2>
+      <ul>
+        <li><a onclick="showLesson(1)">Introduction to Python</a></li>
+        <li><a onclick="showLesson(2)">Python Data Types</a></li>
+        <li><a onclick="showLesson(3)">Control Flow in Python</a></li>
+        <li><a onclick="showLesson(4)">Functions in Python</a></li>
+        <li><a onclick="showLesson(5)">Object-Oriented Programming in Python</a></li>
+        <li><a onclick="showLesson(6)">Exception Handling in Python</a></li>
+        <li><a onclick="showLesson(7)">File Handling in Python</a></li>
+        <li><a onclick="showLesson(8)">Advanced Python: Decorators & Generators</a></li>
+      </ul>
+      <div id="overall-progress" class="progress-overall">
+        Overall Progress: 0%
+      </div>
+    </div>
+
+    <div class="main-content">
+      <!-- Lesson 1 -->
+      <div id="lesson-1" class="lesson-container">
+        <h2>Introduction to Python</h2>
+        <iframe id="video-1" src="https://www.youtube.com/embed/kqtD5dpn9C8" allowfullscreen></iframe>
+        <button onclick="unlockQuiz(1)">Complete Video</button>
+
+        <div id="quiz-1" class="quiz">
+          <h3>Quiz: Introduction to Python</h3>
+          <div id="question-1" class="question"></div>
+          <ul id="options-1" class="quiz-options"></ul>
+          <button onclick="nextQuestion(1)" id="next-btn-1">Next</button>
+        </div>
+
+        <div id="result-1" class="result"></div>
+        <div id="progress-tracker-1" class="progress-tracker"></div>
+      </div>
+
+      <!-- Lesson 2 -->
+      <div id="lesson-2" class="lesson-container">
+        <h2>Python Data Types</h2>
+        <iframe id="video-2" src="https://www.youtube.com/embed/khKv-8q7YmY" allowfullscreen></iframe>
+        <button onclick="unlockQuiz(2)">Complete Video</button>
+
+        <div id="quiz-2" class="quiz">
+          <h3>Quiz: Python Data Types</h3>
+          <div id="question-2" class="question"></div>
+          <ul id="options-2" class="quiz-options"></ul>
+          <button onclick="nextQuestion(2)" id="next-btn-2">Next</button>
+        </div>
+
+        <div id="result-2" class="result"></div>
+        <div id="progress-tracker-2" class="progress-tracker"></div>
+      </div>
+
+      <!-- Lesson 3 -->
+      <div id="lesson-3" class="lesson-container">
+        <h2>Control Flow in Python</h2>
+        <iframe id="video-3" src="https://www.youtube.com/embed/f0M9Iu7wD6g" allowfullscreen></iframe>
+        <button onclick="unlockQuiz(3)">Complete Video</button>
+
+        <div id="quiz-3" class="quiz">
+          <h3>Quiz: Control Flow in Python</h3>
+          <div id="question-3" class="question"></div>
+          <ul id="options-3" class="quiz-options"></ul>
+          <button onclick="nextQuestion(3)" id="next-btn-3">Next</button>
+        </div>
+
+        <div id="result-3" class="result"></div>
+        <div id="progress-tracker-3" class="progress-tracker"></div>
+      </div>
+
+      <!-- Lesson 4 -->
+      <div id="lesson-4" class="lesson-container">
+        <h2>Functions in Python</h2>
+        <iframe id="video-4" src="https://www.youtube.com/embed/hYzwYfISuyI" allowfullscreen></iframe>
+        <button onclick="unlockQuiz(4)">Complete Video</button>
+
+        <div id="quiz-4" class="quiz">
+          <h3>Quiz: Functions in Python</h3>
+          <div id="question-4" class="question"></div>
+          <ul id="options-4" class="quiz-options"></ul>
+          <button onclick="nextQuestion(4)" id="next-btn-4">Next</button>
+        </div>
+
+        <div id="result-4" class="result"></div>
+        <div id="progress-tracker-4" class="progress-tracker"></div>
+      </div>
+
+      <!-- Lesson 5 -->
+      <div id="lesson-5" class="lesson-container">
+        <h2>Object-Oriented Programming in Python</h2>
+        <iframe id="video-5" src="https://www.youtube.com/embed/JeznW_7DlB0" allowfullscreen></iframe>
+        <button onclick="unlockQuiz(5)">Complete Video</button>
+
+        <div id="quiz-5" class="quiz">
+          <h3>Quiz: Object-Oriented Programming in Python</h3>
+          <div id="question-5" class="question"></div>
+          <ul id="options-5" class="quiz-options"></ul>
+          <button onclick="nextQuestion(5)" id="next-btn-5">Next</button>
+        </div>
+
+        <div id="result-5" class="result"></div>
+        <div id="progress-tracker-5" class="progress-tracker"></div>
+      </div>
+
+      <!-- Lesson 6 -->
+      <div id="lesson-6" class="lesson-container">
+        <h2>Exception Handling in Python</h2>
+        <iframe id="video-6" src="https://www.youtube.com/embed/MR4wyfMXX9s" allowfullscreen></iframe>
+        <button onclick="unlockQuiz(6)">Complete Video</button>
+
+        <div id="quiz-6" class="quiz">
+          <h3>Quiz: Exception Handling in Python</h3>
+          <div id="question-6" class="question"></div>
+          <ul id="options-6" class="quiz-options"></ul>
+          <button onclick="nextQuestion(6)" id="next-btn-6">Next</button>
+        </div>
+
+        <div id="result-6" class="result"></div>
+        <div id="progress-tracker-6" class="progress-tracker"></div>
+      </div>
+
+      <!-- Lesson 7 -->
+      <div id="lesson-7" class="lesson-container">
+        <h2>File Handling in Python</h2>
+        <iframe id="video-7" src="https://www.youtube.com/embed/ohC04r2_zXY" allowfullscreen></iframe>
+        <button onclick="unlockQuiz(7)">Complete Video</button>
+
+        <div id="quiz-7" class="quiz">
+          <h3>Quiz: File Handling in Python</h3>
+          <div id="question-7" class="question"></div>
+          <ul id="options-7" class="quiz-options"></ul>
+          <button onclick="nextQuestion(7)" id="next-btn-7">Next</button>
+        </div>
+
+        <div id="result-7" class="result"></div>
+        <div id="progress-tracker-7" class="progress-tracker"></div>
+      </div>
+
+      <!-- Lesson 8 -->
+      <div id="lesson-8" class="lesson-container">
+        <h2>Advanced Python: Decorators & Generators</h2>
+        <iframe id="video-8" src="https://www.youtube.com/embed/Mxj0VXJd0XY" allowfullscreen></iframe>
+        <button onclick="unlockQuiz(8)">Complete Video</button>
+
+        <div id="quiz-8" class="quiz">
+          <h3>Quiz: Advanced Python: Decorators & Generators</h3>
+          <div id="question-8" class="question"></div>
+          <ul id="options-8" class="quiz-options"></ul>
+          <button onclick="nextQuestion(8)" id="next-btn-8">Next</button>
+        </div>
+
+        <div id="result-8" class="result"></div>
+        <div id="progress-tracker-8" class="progress-tracker"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const lessons = [
+    {
+        id: 1,
+        title: "Introduction to Python",
+        quiz: [
+          { question: "What is Python?", options: ["A snake", "A programming language", "A browser", "An OS"], correct: 1 },
+          { question: "Python is...", options: ["Compiled", "Interpreted", "Both", "None"], correct: 1 },
+          { question: "Who created Python?", options: ["Guido van Rossum", "James Gosling", "Dennis Ritchie", "Bjarne Stroustrup"], correct: 0 },
+          { question: "When was Python released?", options: ["1985", "1991", "2000", "1995"], correct: 1 },
+          { question: "What type of language is Python?", options: ["Low-level", "High-level", "Middle-level", "Assembly"], correct: 1 },
+        ],
+        completed: false
+      },
+      {
+        id: 2,
+        title: "Python Data Types",
+        quiz: [
+          { question: "Which is not a Python data type?", options: ["String", "Integer", "Boolean", "Character"], correct: 3 },
+          { question: "Which data type is mutable?", options: ["String", "Integer", "List", "Tuple"], correct: 2 },
+          { question: "What is a tuple?", options: ["Mutable", "Immutable", "Dynamic", "Slow"], correct: 1 },
+          { question: "Which data type is used for true/false?", options: ["Boolean", "Integer", "String", "List"], correct: 0 },
+          { question: "Which data type can store a sequence?", options: ["Integer", "String", "Boolean", "List"], correct: 3 },
+        ],
+        completed: false
+      },
+      {
+        id: 3,
+        title: "Control Flow in Python",
+        quiz: [
+          { question: "Which keyword is used to start a conditional statement?", options: ["if", "when", "for", "while"], correct: 0 },
+          { question: "Which operator is used for equality comparison?", options: ["==", "=", "===", "!"], correct: 0 },
+          { question: "Which loop is used to iterate over a sequence?", options: ["for", "while", "do-while", "each"], correct: 0 },
+          { question: "What does 'elif' stand for?", options: ["Else if", "Else loop", "Else statement", "None of the above"], correct: 0 },
+          { question: "Which keyword is used to exit a loop?", options: ["break", "exit", "continue", "stop"], correct: 0 },
+        ]
+      },
+      {
+        id: 4,
+        title: "Functions in Python",
+        quiz: [
+          { question: "How do you define a function in Python?", options: ["function(){}", "def function():", "function function(){}", "def function{}"], correct: 1 },
+          { question: "What is the return value of a function that does not have a return statement?", options: ["None", "False", "0", "undefined"], correct: 0 },
+          { question: "How do you call a function in Python?", options: ["call function()", "function()", "invoke function()", "execute function()"], correct: 1 },
+          { question: "What does the 'return' keyword do in a function?", options: ["Exit the function", "Return a value from the function", "Define the function", "All of the above"], correct: 1 },
+          { question: "Which of the following is a valid function definition?", options: ["def function[]", "function()def", "def function():", "def function()"], correct: 2 },
+        ]
+      },
+      {
+        id: 5,
+        title: "Object-Oriented Programming in Python",
+        quiz: [
+          { question: "What keyword is used to create a class in Python?", options: ["class", "def", "object", "constructor"], correct: 0 },
+          { question: "Which method is used to initialize an object in a class?", options: ["init()", "start()", "constructor()", "initiate()"], correct: 0 },
+          { question: "What is the purpose of 'self' in a class?", options: ["Refers to the instance of the class", "Refers to the class itself", "Represents a static method", "None of the above"], correct: 0 },
+          { question: "Which of these is used to inherit a class?", options: ["class Child class Parent", "class Child(Parent)", "class Child extends Parent", "class Child : Parent"], correct: 1 },
+          { question: "What is an instance in Python?", options: ["An object of a class", "A class method", "A class attribute", "None of the above"], correct: 0 },
+        ]
+      },
+      {
+        id: 6,
+        title: "Exception Handling in Python",
+        quiz: [
+          { question: "Which keyword is used to handle exceptions in Python?", options: ["try", "except", "throw", "catch"], correct: 1 },
+          { question: "What does the 'finally' block do in exception handling?", options: ["Executes if an exception occurs", "Executes regardless of an exception", "Executes only if no exception occurs", "Throws an exception"], correct: 1 },
+          { question: "What does the 'except' block do?", options: ["Handles the exception", "Creates an exception", "Stops the program", "None of the above"], correct: 0 },
+          { question: "Which of the following is used to raise an exception?", options: ["throw", "raise", "except", "catch"], correct: 1 },
+          { question: "What is the purpose of 'try' block?", options: ["To catch exceptions", "To define a function", "To execute code that may cause exceptions", "None of the above"], correct: 2 },
+        ]
+      },
+      {
+        id: 7,
+        title: "File Handling in Python",
+        quiz: [
+          { question: "Which function is used to open a file in Python?", options: ["open()", "file()", "load()", "read()"], correct: 0 },
+          { question: "Which mode is used to open a file for reading?", options: ["'r'", "'w'", "'a'", "'rw'"], correct: 0 },
+          { question: "Which function is used to read the contents of a file?", options: ["read()", "open()", "load()", "write()"], correct: 0 },
+          { question: "Which mode is used to append to a file?", options: ["'a'", "'r'", "'w'", "'x'"], correct: 0 },
+          { question: "How do you close a file in Python?", options: ["close()", "end()", "exit()", "stop()"], correct: 0 },
+        ]
+      },
+      {
+        id: 8,
+        title: "Advanced Python: Decorators & Generators",
+        quiz: [
+          { question: "What is the purpose of a decorator in Python?", options: ["Modify a function's behavior", "Define a class", "Store data", "None of the above"], correct: 0 },
+          { question: "Which of the following is a generator in Python?", options: ["yield", "return", "function()", "loop()"], correct: 0 },
+          { question: "What does the 'yield' keyword do?", options: ["Defines a function", "Returns a value", "Stops a function", "Generates a value", "None of the above"], correct: 3 },
+          { question: "Which of the following is a valid decorator syntax?", options: ["@function", "@decorator", "@def", "@function()"], correct: 1 },
+          { question: "What is the benefit of using a generator?", options: ["Saves memory", "Faster execution", "Allows infinite sequences", "All of the above"], correct: 3 },
+        ]
+      }
+    ];
+
+
+    let currentQuestion = {};
+    let scores = {};
+    let overallCompleted = 0;
+
+    function showLesson(lessonId) {
+      document.querySelectorAll(".lesson-container").forEach(container => container.style.display = "none");
+      document.getElementById(`lesson-${lessonId}`).style.display = "block";
+    }
+
+    function unlockQuiz(lessonId) {
+      document.getElementById(`quiz-${lessonId}`).style.display = "block";
+      scores[lessonId] = 0;
+      loadQuestion(lessonId, 0);
+    }
+
+    function loadQuestion(lessonId, questionIndex) {
+      const lesson = lessons.find(l => l.id === lessonId);
+      currentQuestion[lessonId] = questionIndex;
+
+      const questionElement = document.getElementById(`question-${lessonId}`);
+      const optionsElement = document.getElementById(`options-${lessonId}`);
+      const question = lesson.quiz[questionIndex];
+
+      questionElement.innerText = question.question;
+      optionsElement.innerHTML = question.options.map((option, i) => `
+        <li>
+          <input type="radio" id="option-${lessonId}-${i}" name="quiz-${lessonId}" value="${i}">
+          <label for="option-${lessonId}-${i}">${option}</label>
+        </li>`).join("");
+
+      document.getElementById(`next-btn-${lessonId}`).innerText = questionIndex < lesson.quiz.length - 1 ? "Next" : "Submit";
+    }
+
+    function nextQuestion(lessonId) {
+      const lesson = lessons.find(l => l.id === lessonId);
+      const questionIndex = currentQuestion[lessonId];
+      const selectedOption = document.querySelector(`input[name="quiz-${lessonId}"]:checked`);
+
+      if (!selectedOption) {
+        alert("Please select an answer!");
+        return;
+      }
+
+      if (parseInt(selectedOption.value) === lesson.quiz[questionIndex].correct) {
+        scores[lessonId]++;
+      }
+
+      if (questionIndex < lesson.quiz.length - 1) {
+        loadQuestion(lessonId, questionIndex + 1);
+      } else {
+        showResult(lessonId);
+      }
+    }
+
+    function showResult(lessonId) {
+      document.getElementById(`quiz-${lessonId}`).style.display = "none";
+
+      const resultElement = document.getElementById(`result-${lessonId}`);
+      const progressTracker = document.getElementById(`progress-tracker-${lessonId}`);
+      const totalQuestions = lessons.find(l => l.id === lessonId).quiz.length;
+
+      resultElement.style.display = "block";
+      resultElement.innerHTML = `<h3>Your Score: ${scores[lessonId]} / ${totalQuestions}</h3>`;
+      progressTracker.style.display = "block";
+      progressTracker.innerText = `Progress: ${scores[lessonId]} / ${totalQuestions}`;
+
+      lessons.find(l => l.id === lessonId).completed = true;
+      updateOverallProgress();
+    }
+
+    function updateOverallProgress() {
+      const completedLessons = lessons.filter(lesson => lesson.completed).length;
+      const overallProgress = Math.round((completedLessons / lessons.length) * 100);
+      document.getElementById("overall-progress").innerText = `Overall Progress: ${overallProgress}%`;
+    }
+
+    document.querySelector('.menu-toggle').addEventListener('click', function () {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('show');
+    });
+
+    // Show Selected Lesson
+    function showLesson(lessonId) {
+      const lessonContainers = document.querySelectorAll('.lesson-container');
+      lessonContainers.forEach(container => (container.style.display = 'none'));
+      const selectedLesson = document.getElementById(`lesson-${lessonId}`);
+      if (selectedLesson) selectedLesson.style.display = 'block';
+
+      // Close Sidebar on Mobile After Selection
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.remove('show');
+    }
+  </script>
+</body>
+</html>

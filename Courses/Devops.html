@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devops- E-Learning Platform</title>
+  <style>
+     body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background-color:#2C7D89;
+      color: white;
+      width: 100%;
+      position: fixed;
+      z-index: 1000;
+      height: 60px;
+      top: 0;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .container {
+      display: flex;
+      flex: 1;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #2C7D89;
+      position: fixed;
+      height: 100%;
+      top: 0;
+      left: 0;
+      padding-top: 60px; /* Push below header */
+    }
+    .sidebar.hide {
+      transform: translateX(-100%);
+    }
+    .nav-links ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px; /* Add margin-top to push the lessons down */
+}
+
+.nav-links ul li {
+  margin: 10px 0; /* Optional, you can adjust this margin for spacing between list items */
+}
+    .nav-links ul li a {
+      display: block;
+      padding: 10px;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .nav-links ul li a:hover {
+      background: #555;
+    }
+
+   
+    
+    .progress-overall {
+      margin-top: 20px;
+      padding: 10px;
+      background: #4CAF50;
+      border-radius: 10px;
+      color: white;
+      text-align: center;
+    }
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+      margin-top: 120px; /* Increased margin-top for more space */
+      flex-grow: 1;
+    }
+
+    .content {
+      flex: 1;
+      padding: 2em;
+      overflow-y: auto;
+    }
+
+    .lesson-container {
+      display: none;
+    }
+    .lesson {
+      padding: 20px;
+      margin: 20px 0;
+      background-color: #f4f4f4;
+      border-radius: 5px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 315px;
+      border: none;
+    }
+
+    .quiz {
+      display: none;
+      margin-top: 1em;
+      padding: 1em;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+
+    .quiz h3 {
+      margin-bottom: 1em;
+    }
+
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+    }
+
+    .quiz-options li {
+      margin-bottom: 10px;
+    }
+
+    .result {
+      display: none;
+      margin-top: 1em;
+      padding: 1em;
+      border: 1px solid #4CAF50;
+      border-radius: 10px;
+      background: #dff0d8;
+    }
+
+    .result h3 {
+      color: #4CAF50;
+    }
+
+    .progress-tracker {
+      display: none;
+      margin-top: 1em;
+      font-size: 1.2em;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #333;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 18px;
+      transition: background 0.3s;
+      z-index: 999;
+    }
+
+    .toggle-btn:hover {
+      background: #575757;
+    }
+
+   
+
+      /* Mobile view styles */
+      @media (max-width: 768px) {
+      .sidebar {
+        display: none; /* Hide sidebar on mobile */
+      }
+
+      .menu-toggle {
+        display: block; /* Show menu icon on mobile */
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        background-color: #2C7D89;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 250px;
+        height: calc(100vh - 60px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .nav-links.show {
+        display: flex;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding-top: 80px;
+      }
+      .nav-links ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 2px; /* Add margin-top to push the lessons down */
+}
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+    <div class="logo">Devops-Topics</div>
+  </header>
+  <div class="sidebar nav-links ">
+      <h2>Topics</h2>
+      <ul>
+        <li><a onclick="showLesson(1)">Introduction to DevOps</a></li>
+        <li><a onclick="showLesson(2)">Setting Up a DevOps Environment</a></li>
+        <li><a onclick="showLesson(3)">Version Control with Git</a></li>
+        <li><a onclick="showLesson(4)">Continuous Integration (CI) with Jenkins</a></li>
+        <li><a onclick="showLesson(5)">Continuous Deployment (CD) with Kubernetes</a></li>
+        <li><a onclick="showLesson(6)">Configuration Management with Ansible</a></li>
+        <li><a onclick="showLesson(7)">Infrastructure as Code (IaC) with Terraform</a></li>
+        <li><a onclick="showLesson(8)">Monitoring and Logging with Prometheus and Grafana</a></li>
+        <li><a onclick="showLesson(9)">Containerization with Docker</a></li>
+        <li><a onclick="showLesson(10)">Cloud Deployment and Management (AWS, Azure, GCP)</a></li>
+    </ul>
+    
+      <div id="overall-progress" class="progress-overall">
+        Overall Progress: 0%
+      </div>
+    </div>
+  
+    <div class="main-content">
+        <!-- Lesson 1 -->
+        <div id="lesson-1" class="lesson-container">
+          <h2>Introduction to DevOps</h2>
+          <iframe id="video-1" src="https://www.youtube.com/embed/9oU_0LfGr7g" allowfullscreen></iframe>
+          <button onclick="unlockQuiz(1)">Complete Video</button>
+      
+          <div id="quiz-1" class="quiz">
+            <h3>Quiz: Introduction to DevOps</h3>
+            <div id="question-1" class="question"></div>
+            <ul id="options-1" class="quiz-options"></ul>
+            <button onclick="nextQuestion(1)" id="next-btn-1">Next</button>
+          </div>
+      
+          <div id="result-1" class="result"></div>
+          <div id="progress-tracker-1" class="progress-tracker"></div>
+        </div>
+      
+        <!-- Lesson 2 -->
+        <div id="lesson-2" class="lesson-container">
+          <h2>Setting Up a DevOps Environment</h2>
+          <iframe id="video-2" src="https://www.youtube.com/embed/g4ByF1-wy_g" allowfullscreen></iframe>
+          <button onclick="unlockQuiz(2)">Complete Video</button>
+      
+          <div id="quiz-2" class="quiz">
+            <h3>Quiz: Setting Up a DevOps Environment</h3>
+            <div id="question-2" class="question"></div>
+            <ul id="options-2" class="quiz-options"></ul>
+            <button onclick="nextQuestion(2)" id="next-btn-2">Next</button>
+          </div>
+      
+          <div id="result-2" class="result"></div>
+          <div id="progress-tracker-2" class="progress-tracker"></div>
+        </div>
+      
+        <!-- Lesson 3 -->
+        <div id="lesson-3" class="lesson-container">
+          <h2>Version Control with Git</h2>
+          <iframe id="video-3" src="https://www.youtube.com/embed/8JJhC2jFIsM" allowfullscreen></iframe>
+          <button onclick="unlockQuiz(3)">Complete Video</button>
+      
+          <div id="quiz-3" class="quiz">
+            <h3>Quiz: Version Control with Git</h3>
+            <div id="question-3" class="question"></div>
+            <ul id="options-3" class="quiz-options"></ul>
+            <button onclick="nextQuestion(3)" id="next-btn-3">Next</button>
+          </div>
+      
+          <div id="result-3" class="result"></div>
+          <div id="progress-tracker-3" class="progress-tracker"></div>
+        </div>
+      
+        <!-- Lesson 4 -->
+        <div id="lesson-4" class="lesson-container">
+          <h2>Continuous Integration (CI) with Jenkins</h2>
+          <iframe id="video-4" src="https://www.youtube.com/embed/4ysQ-GwjeYw" allowfullscreen></iframe>
+          <button onclick="unlockQuiz(4)">Complete Video</button>
+      
+          <div id="quiz-4" class="quiz">
+            <h3>Quiz: Continuous Integration (CI) with Jenkins</h3>
+            <div id="question-4" class="question"></div>
+            <ul id="options-4" class="quiz-options"></ul>
+            <button onclick="nextQuestion(4)" id="next-btn-4">Next</button>
+          </div>
+      
+          <div id="result-4" class="result"></div>
+          <div id="progress-tracker-4" class="progress-tracker"></div>
+        </div>
+      
+        <!-- Lesson 5 -->
+        <div id="lesson-5" class="lesson-container">
+          <h2>Continuous Deployment (CD) with Kubernetes</h2>
+          <iframe id="video-5" src="https://www.youtube.com/embed/X48VuDVv0do" allowfullscreen></iframe>
+          <button onclick="unlockQuiz(5)">Complete Video</button>
+      
+          <div id="quiz-5" class="quiz">
+            <h3>Quiz: Continuous Deployment (CD) with Kubernetes</h3>
+            <div id="question-5" class="question"></div>
+            <ul id="options-5" class="quiz-options"></ul>
+            <button onclick="nextQuestion(5)" id="next-btn-5">Next</button>
+          </div>
+      
+          <div id="result-5" class="result"></div>
+          <div id="progress-tracker-5" class="progress-tracker"></div>
+        </div>
+      
+        <!-- Lesson 6 -->
+        <div id="lesson-6" class="lesson-container">
+          <h2>Configuration Management with Ansible</h2>
+          <iframe id="video-6" src="https://www.youtube.com/embed/wzFSjGh56y0" allowfullscreen></iframe>
+          <button onclick="unlockQuiz(6)">Complete Video</button>
+      
+          <div id="quiz-6" class="quiz">
+            <h3>Quiz: Configuration Management with Ansible</h3>
+            <div id="question-6" class="question"></div>
+            <ul id="options-6" class="quiz-options"></ul>
+            <button onclick="nextQuestion(6)" id="next-btn-6">Next</button>
+          </div>
+      
+          <div id="result-6" class="result"></div>
+          <div id="progress-tracker-6" class="progress-tracker"></div>
+        </div>
+      
+        <!-- Lesson 7 -->
+        <div id="lesson-7" class="lesson-container">
+          <h2>Infrastructure as Code (IaC) with Terraform</h2>
+          <iframe id="video-7" src="https://www.youtube.com/embed/SLB4shf4P7Q" allowfullscreen></iframe>
+          <button onclick="unlockQuiz(7)">Complete Video</button>
+      
+          <div id="quiz-7" class="quiz">
+            <h3>Quiz: Infrastructure as Code (IaC) with Terraform</h3>
+            <div id="question-7" class="question"></div>
+            <ul id="options-7" class="quiz-options"></ul>
+            <button onclick="nextQuestion(7)" id="next-btn-7">Next</button>
+          </div>
+      
+          <div id="result-7" class="result"></div>
+          <div id="progress-tracker-7" class="progress-tracker"></div>
+        </div>
+      
+        <!-- Lesson 8 -->
+        <div id="lesson-8" class="lesson-container">
+          <h2>Monitoring and Logging with Prometheus and Grafana</h2>
+          <iframe id="video-8" src="https://www.youtube.com/embed/x3fKn3t77s8" allowfullscreen></iframe>
+          <button onclick="unlockQuiz(8)">Complete Video</button>
+      
+          <div id="quiz-8" class="quiz">
+            <h3>Quiz: Monitoring and Logging with Prometheus and Grafana</h3>
+            <div id="question-8" class="question"></div>
+            <ul id="options-8" class="quiz-options"></ul>
+            <button onclick="nextQuestion(8)" id="next-btn-8">Next</button>
+          </div>
+      
+          <div id="result-8" class="result"></div>
+          <div id="progress-tracker-8" class="progress-tracker"></div>
+        </div>
+      
+        <!-- Lesson 9 -->
+        <div id="lesson-9" class="lesson-container">
+          <h2>Containerization with Docker</h2>
+          <iframe id="video-9" src="https://www.youtube.com/embed/31KacwbZ4W8" allowfullscreen></iframe>
+          <button onclick="unlockQuiz(9)">Complete Video</button>
+      
+          <div id="quiz-9" class="quiz">
+            <h3>Quiz: Containerization with Docker</h3>
+            <div id="question-9" class="question"></div>
+            <ul id="options-9" class="quiz-options"></ul>
+            <button onclick="nextQuestion(9)" id="next-btn-9">Next</button>
+          </div>
+      
+          <div id="result-9" class="result"></div>
+          <div id="progress-tracker-9" class="progress-tracker"></div>
+        </div>
+      
+        <!-- Lesson 10 -->
+        <div id="lesson-10" class="lesson-container">
+          <h2>Cloud Deployment and Management (AWS, Azure, GCP)</h2>
+          <iframe id="video-10" src="https://www.youtube.com/embed/51cV6f4kp_Y" allowfullscreen></iframe>
+          <button onclick="unlockQuiz(10)">Complete Video</button>
+      
+          <div id="quiz-10" class="quiz">
+            <h3>Quiz: Cloud Deployment and Management (AWS, Azure, GCP)</h3>
+            <div id="question-10" class="question"></div>
+            <ul id="options-10" class="quiz-options"></ul>
+            <button onclick="nextQuestion(10)" id="next-btn-10">Next</button>
+          </div>
+      
+          <div id="result-10" class="result"></div>
+          <div id="progress-tracker-10" class="progress-tracker"></div>
+        </div>
+      </div>
+      
+
+  <script>
+   const lessons = [
+  {
+    id: 1,
+    title: "Introduction to DevOps",
+    quiz: [
+      { question: "What does DevOps stand for?", options: ["Development and Operations", "Development of Operations", "Development in Operations", "Operational Development"], correct: 0 },
+      { question: "Which of the following is a primary goal of DevOps?", options: ["Faster deployment", "Increased costs", "Manual processes", "Longer development cycles"], correct: 0 },
+      { question: "What is the role of automation in DevOps?", options: ["To reduce manual errors", "To slow down processes", "To increase complexity", "None of the above"], correct: 0 },
+      { question: "Which of the following tools is commonly used in DevOps?", options: ["Jenkins", "Xcode", "Android Studio", "PyCharm"], correct: 0 },
+      { question: "DevOps practices primarily aim to improve which of the following?", options: ["Collaboration between development and operations teams", "Project management", "Coding standards", "Testing procedures"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 2,
+    title: "Setting Up a DevOps Environment",
+    quiz: [
+      { question: "Which of the following is necessary to set up a DevOps environment?", options: ["CI/CD tools", "IDE", "Database", "Text editor"], correct: 0 },
+      { question: "Which of these is commonly used for configuration management?", options: ["Ansible", "GitHub", "Docker", "AWS"], correct: 0 },
+      { question: "What is the purpose of setting up a continuous integration server?", options: ["To automate the build and testing process", "To create a production-ready server", "To deploy code to the cloud", "To test database performance"], correct: 0 },
+      { question: "Which tool is widely used for version control in DevOps?", options: ["Git", "Jenkins", "Docker", "Terraform"], correct: 0 },
+      { question: "Which cloud service is commonly used for DevOps automation?", options: ["AWS", "Windows", "Xcode", "Apache"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 3,
+    title: "Version Control with Git",
+    quiz: [
+      { question: "What is the purpose of Git in DevOps?", options: ["Version control", "Database management", "Server management", "UI design"], correct: 0 },
+      { question: "Which Git command is used to commit changes?", options: ["git commit", "git push", "git pull", "git clone"], correct: 0 },
+      { question: "What does 'git clone' do?", options: ["Copies a repository to your local machine", "Commits changes", "Pushes code to the repository", "Lists files in a repository"], correct: 0 },
+      { question: "What is a 'branch' in Git?", options: ["A separate line of development", "A version of the repository", "A set of files", "A configuration file"], correct: 0 },
+      { question: "Which Git command is used to merge changes from one branch to another?", options: ["git merge", "git commit", "git push", "git pull"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 4,
+    title: "Continuous Integration (CI) with Jenkins",
+    quiz: [
+      { question: "What is the purpose of Jenkins in DevOps?", options: ["Continuous Integration", "Database management", "Web development", "Cloud hosting"], correct: 0 },
+      { question: "Which of these Jenkins plugins is used for integrating with Git?", options: ["Git plugin", "Docker plugin", "AWS plugin", "MySQL plugin"], correct: 0 },
+      { question: "What is a 'build job' in Jenkins?", options: ["A task that automates the build and testing process", "A UI design task", "A networking task", "A task for managing servers"], correct: 0 },
+      { question: "Which of the following is NOT a step in the CI process?", options: ["Code commit", "Automated testing", "Manual deployment", "Build automation"], correct: 2 },
+      { question: "What triggers a Jenkins job?", options: ["Code changes", "Time schedule", "Manual trigger", "All of the above"], correct: 3 },
+    ],
+    completed: false
+  },
+  {
+    id: 5,
+    title: "Continuous Deployment (CD) with Kubernetes",
+    quiz: [
+      { question: "What is Kubernetes used for?", options: ["Container orchestration", "Database management", "CI/CD", "Cloud hosting"], correct: 0 },
+      { question: "Which Kubernetes component is responsible for managing containers?", options: ["Pod", "Node", "Cluster", "Volume"], correct: 0 },
+      { question: "What is the main advantage of Continuous Deployment?", options: ["Automated deployment to production", "Manual deployment", "Faster coding", "Server management"], correct: 0 },
+      { question: "Which of these is NOT part of the Kubernetes architecture?", options: ["Node", "Pod", "Service", "Git"], correct: 3 },
+      { question: "What is the purpose of Helm in Kubernetes?", options: ["Package manager for Kubernetes", "Cloud deployment", "Monitoring tool", "Server management"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 6,
+    title: "Configuration Management with Ansible",
+    quiz: [
+      { question: "What is Ansible used for?", options: ["Configuration management", "Version control", "Database management", "Cloud computing"], correct: 0 },
+      { question: "What is a playbook in Ansible?", options: ["A configuration file", "A script to execute tasks", "A list of files", "A server management tool"], correct: 1 },
+      { question: "Which language is used for writing Ansible playbooks?", options: ["YAML", "JSON", "XML", "Python"], correct: 0 },
+      { question: "What is an inventory in Ansible?", options: ["A list of hosts to manage", "A list of users", "A list of tasks", "A configuration file"], correct: 0 },
+      { question: "Which command is used to run an Ansible playbook?", options: ["ansible-playbook", "ansible-run", "ansible-deploy", "ansible-start"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 7,
+    title: "Infrastructure as Code (IaC) with Terraform",
+    quiz: [
+      { question: "What is the purpose of Terraform?", options: ["Infrastructure as Code (IaC)", "Cloud computing", "Continuous Deployment", "Server management"], correct: 0 },
+      { question: "Which of the following is used for defining infrastructure in Terraform?", options: ["HCL", "JSON", "YAML", "Python"], correct: 0 },
+      { question: "What is the Terraform 'plan' command used for?", options: ["To preview infrastructure changes", "To apply infrastructure changes", "To destroy infrastructure", "To update infrastructure"], correct: 0 },
+      { question: "Which provider can Terraform use for cloud infrastructure?", options: ["AWS", "Azure", "Google Cloud", "All of the above"], correct: 3 },
+      { question: "What does the 'apply' command do in Terraform?", options: ["Applies the changes to infrastructure", "Previews the changes", "Deletes infrastructure", "Lists the changes"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 8,
+    title: "Monitoring and Logging with Prometheus and Grafana",
+    quiz: [
+      { question: "What is Prometheus used for?", options: ["Monitoring", "Configuration management", "CI/CD", "Cloud hosting"], correct: 0 },
+      { question: "What is Grafana used for?", options: ["Visualizing metrics", "Configuring infrastructure", "Deploying code", "Managing containers"], correct: 0 },
+      { question: "Which of these is a metric collection tool?", options: ["Prometheus", "Docker", "Git", "Jenkins"], correct: 0 },
+      { question: "What is a 'Dashboard' in Grafana?", options: ["A visual representation of data", "A configuration file", "A monitoring agent", "A version control system"], correct: 0 },
+      { question: "Which of these metrics can Prometheus monitor?", options: ["CPU usage", "Memory usage", "Disk usage", "All of the above"], correct: 3 },
+    ],
+    completed: false
+  },
+  {
+    id: 9,
+    title: "Containerization with Docker",
+    quiz: [
+      { question: "What is Docker used for?", options: ["Containerization", "Server management", "Cloud hosting", "CI/CD"], correct: 0 },
+      { question: "What is a Docker container?", options: ["A lightweight, standalone package for software", "A virtual machine", "A configuration management tool", "A monitoring tool"], correct: 0 },
+      { question: "Which command is used to create a Docker container?", options: ["docker run", "docker create", "docker build", "docker exec"], correct: 0 },
+      { question: "What is a Docker image?", options: ["A template for creating containers", "A running container", "A configuration file", "A cloud service"], correct: 0 },
+      { question: "What is the purpose of the Docker Hub?", options: ["A repository for Docker images", "A Docker container manager", "A server management tool", "A cloud service"], correct: 0 },
+    ],
+    completed: false
+  },
+  {
+    id: 10,
+    title: "Cloud Deployment and Management (AWS, Azure, GCP)",
+    quiz: [
+      { question: "Which of these is a cloud service provider?", options: ["AWS", "Azure", "Google Cloud", "All of the above"], correct: 3 },
+      { question: "Which service does AWS provide?", options: ["EC2", "Lambda", "S3", "All of the above"], correct: 3 },
+      { question: "Which cloud provider offers App Service?", options: ["Azure", "AWS", "Google Cloud", "IBM Cloud"], correct: 0 },
+      { question: "What is the purpose of Google Cloud Storage?", options: ["File storage", "Compute services", "Networking", "Big Data"], correct: 0 },
+      { question: "Which of these services is provided by AWS?", options: ["EC2", "S3", "RDS", "All of the above"], correct: 3 },
+    ],
+    completed: false
+  }
+];
+
+
+
+
+    let currentQuestion = {};
+    let scores = {};
+    let overallCompleted = 0;
+
+    function showLesson(lessonId) {
+      document.querySelectorAll(".lesson-container").forEach(container => container.style.display = "none");
+      document.getElementById(`lesson-${lessonId}`).style.display = "block";
+    }
+
+    function unlockQuiz(lessonId) {
+      document.getElementById(`quiz-${lessonId}`).style.display = "block";
+      scores[lessonId] = 0;
+      loadQuestion(lessonId, 0);
+    }
+
+    function loadQuestion(lessonId, questionIndex) {
+      const lesson = lessons.find(l => l.id === lessonId);
+      currentQuestion[lessonId] = questionIndex;
+
+      const questionElement = document.getElementById(`question-${lessonId}`);
+      const optionsElement = document.getElementById(`options-${lessonId}`);
+      const question = lesson.quiz[questionIndex];
+
+      questionElement.innerText = question.question;
+      optionsElement.innerHTML = question.options.map((option, i) => `
+        <li>
+          <input type="radio" id="option-${lessonId}-${i}" name="quiz-${lessonId}" value="${i}">
+          <label for="option-${lessonId}-${i}">${option}</label>
+        </li>`).join("");
+
+      document.getElementById(`next-btn-${lessonId}`).innerText = questionIndex < lesson.quiz.length - 1 ? "Next" : "Submit";
+    }
+
+    function nextQuestion(lessonId) {
+      const lesson = lessons.find(l => l.id === lessonId);
+      const questionIndex = currentQuestion[lessonId];
+      const selectedOption = document.querySelector(`input[name="quiz-${lessonId}"]:checked`);
+
+      if (!selectedOption) {
+        alert("Please select an answer!");
+        return;
+      }
+
+      if (parseInt(selectedOption.value) === lesson.quiz[questionIndex].correct) {
+        scores[lessonId]++;
+      }
+
+      if (questionIndex < lesson.quiz.length - 1) {
+        loadQuestion(lessonId, questionIndex + 1);
+      } else {
+        showResult(lessonId);
+      }
+    }
+
+    function showResult(lessonId) {
+      document.getElementById(`quiz-${lessonId}`).style.display = "none";
+
+      const resultElement = document.getElementById(`result-${lessonId}`);
+      const progressTracker = document.getElementById(`progress-tracker-${lessonId}`);
+      const totalQuestions = lessons.find(l => l.id === lessonId).quiz.length;
+
+      resultElement.style.display = "block";
+      resultElement.innerHTML = `<h3>Your Score: ${scores[lessonId]} / ${totalQuestions}</h3>`;
+      progressTracker.style.display = "block";
+      progressTracker.innerText = `Progress: ${scores[lessonId]} / ${totalQuestions}`;
+
+      lessons.find(l => l.id === lessonId).completed = true;
+      updateOverallProgress();
+    }
+
+    function updateOverallProgress() {
+      const completedLessons = lessons.filter(lesson => lesson.completed).length;
+      const overallProgress = Math.round((completedLessons / lessons.length) * 100);
+      document.getElementById("overall-progress").innerText = `Overall Progress: ${overallProgress}%`;
+    }
+
+    document.querySelector('.menu-toggle').addEventListener('click', function () {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('show');
+    });
+
+    // Show Selected Lesson
+    function showLesson(lessonId) {
+      const lessonContainers = document.querySelectorAll('.lesson-container');
+      lessonContainers.forEach(container => (container.style.display = 'none'));
+      const selectedLesson = document.getElementById(`lesson-${lessonId}`);
+      if (selectedLesson) selectedLesson.style.display = 'block';
+
+      // Close Sidebar on Mobile After Selection
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.remove('show');
+    }
+  </script>
+</body>
+</html>
