@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #bfecf2; /* Updated background color */
+            color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding-top: 80px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 10px 0;
+            color: black;
+            font-size: 1.7rem; /* Reduced size for smaller header */
+        }
+
+        .course-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding: 20px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .course-card {
+    background: linear-gradient(145deg, #2C7D89, white 100%);
+    border-radius: 15px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 0 25px rgba(67, 82, 113, 0.5);
+    width: 90%;
+    padding: 20px;
+    text-align: center;
+    opacity: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    animation: cardGlow 6s infinite alternate; /* Animation added */
+}
+
+@keyframes cardGlow {
+    0% {
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 0 25px rgba(67, 82, 113, 0.5);
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% {
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.2), 0 0 30px rgba(67, 82, 113, 0.6);
+        transform: scale(1.05);
+        filter: brightness(1.2);
+    }
+    100% {
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 0 25px rgba(67, 82, 113, 0.5);
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
+
+.course-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.3), 0 0 35px rgba(67, 82, 113, 0.8);
+    animation: cardGlowHover 0.4s ease-in-out; /* Temporary hover effect */
+}
+
+@keyframes cardGlowHover {
+    0% {
+        transform: translateY(0) scale(1.05);
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.2), 0 0 30px rgba(67, 82, 113, 0.6);
+    }
+    100% {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: 0 20px 70px rgba(0, 0, 0, 0.3), 0 0 35px rgba(67, 82, 113, 0.8);
+    }
+}
+
+
+.course-card {
+    background: linear-gradient(145deg,   white, #2C7D89 100%);
+    border-radius: 15px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 0 25px rgba(67, 82, 113, 0.5);
+    width: 85%; /* Reduced from 90% */
+    padding: 15px; /* Reduced from 20px */
+    text-align: center;
+    opacity: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    animation: cardGlow 6s infinite alternate; /* Continuous animation */
+}
+
+.course-image {
+    width: 100%;
+    height: 180px; /* Reduced height */
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: 15px;
+}
+
+
+        .course-title {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: black;
+            margin-bottom: 12px;
+        }
+
+        .course-description {
+            font-size: 1rem;
+            color: rgba(0, 0, 0, 0.336);
+            margin-bottom: 20px;
+            height: 80px;
+            overflow: hidden;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            background: linear-gradient(90deg, #21636d, white);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 5px 20px #f1f59d;
+            transition: all 0.4s ease, box-shadow 0.4s ease;
+            animation: buttonPulse 2.5s infinite alternate;
+        }
+
+        @keyframes buttonPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 5px 20px rgba(52, 152, 219, 0.4);
+            }
+            100% {
+                transform: scale(1.05);
+                box-shadow: 0 0 30px rgba(52, 152, 219, 0.7), 0 0 60px rgba(41, 128, 185, 0.7);
+            }
+        }
+
+        .button:hover {
+            box-shadow: 0 0 30px rgba(52, 152, 219, 0.7), 0 0 60px rgba(41, 128, 185, 0.7);
+            transform: scale(1.05);
+        }
+
+      
+
+
+
+       header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color:  #2C7D89;
+      color: #fff;
+      padding: 10px 20px;
+      
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-left img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+    }
+
+    .menu-icon {
+      font-size: 1.8rem;
+      cursor: pointer;
+      display: block;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background-color:  #7ad8e7;
+      position: absolute;
+      top: 50px;
+      right: 20px;
+      width: auto;
+      z-index: 10;
+      padding: 5px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px orange(0, 0, 0, 0.2);
+    }
+
+    .mobile-nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .mobile-nav ul li {
+      margin: 0;
+    }
+
+    .mobile-nav ul li a {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #2C7D89;
+      text-decoration: none;
+      background-color: white;
+      border-radius: 5px;
+      text-align: left;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .mobile-nav ul li a:hover {
+      background-color: lightblue;
+      transform: translateY(-2px);
+    }
+
+    .mobile-nav ul li a svg {
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
+      fill:  #2C7D89;
+    }
+
+    .desktop-nav {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .menu-icon, .mobile-nav {
+        display: none;
+      }
+
+      .desktop-nav {
+        display: flex;
+        gap: 20px;
+      }
+
+      .desktop-nav a {
+        display: flex;
+        align-items: center;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1rem;
+        padding: 10px 15px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .desktop-nav a:hover {
+        background-color:  #a4eef9;
+        color:  #2C7D89;
+        border-radius: 5px;
+      }
+
+      .desktop-nav a svg {
+        margin-right: 8px;
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+      }
+    }    
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo">Learn Hub</div>
+        </div>
+        <div class="menu-icon" onclick="toggleMobileMenu()">☰</div>
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav">
+            <ul>
+                <li><a href="index.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</a></li>
+                <li><a href="Explore.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 17.93V13h4.64A8 8 0 0113 19.93zM11 19.93A8 8 0 016.36 13H11zm6.64-11H13V4.07A8 8 0 0117.64 8.93zM11 4.07V9H6.36A8 8 0 0111 4.07z"/></svg>Explore</a></li>
+                <li><a href="#learning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 2H2v2h20zm0 4H2v2h20zm0 4H2v8h6v2h8v-2h6zM9 18v-4h6v4z"/></svg>Courses</a></li>
+                <li><a href="#profile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12a5 5 0 10-5-5 5 5 0 005 5zm0 2c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>Profile</a></li>
+            </ul>
+        </nav>
+        <!-- Desktop Navigation -->
+        <nav class="desktop-nav">
+            <a href="index.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</a>
+            <a href="Explore.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 17.93V13h4.64A8 8 0 0113 19.93zM11 19.93A8 8 0 016.36 13H11zm6.64-11H13V4.07A8 8 0 0117.64 8.93zM11 4.07V9H6.36A8 8 0 0111 4.07z"/></svg>Explore</a>
+            <a href="#learning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 2H2v2h20zm0 4H2v2h20zm0 4H2v8h6v2h8v-2h6zM9 18v-4h6v4z"/></svg>Courses</a>
+            <a href="#profile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12a5 5 0 10-5-5 5 5 0 005 5zm0 2c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>Profile</a>
+        </nav>
+    </header>
+    
+    <h1>Learning Page</h1>
+    <div class="course-container" id="enrolledCourses"></div>
+
+    <script>
+        const enrolledCoursesContainer = document.getElementById('enrolledCourses');
+        const enrolledCourses = JSON.parse(sessionStorage.getItem('enrolledCourses')) || [];
+        const allCourses = JSON.parse(sessionStorage.getItem('courses')) || [];
+
+        if (enrolledCourses.length > 0) {
+            enrolledCourses.forEach(course => {
+                const courseInfo = allCourses.find(c => c.id === course.id);
+                if (courseInfo) {
+                    const courseDiv = document.createElement('div');
+                    courseDiv.className = 'course-card';
+                    courseDiv.innerHTML = `
+                        <h3 class="course-title">${courseInfo.name}</h3>
+                        <img class="course-image" src="${courseInfo.image}" alt="${courseInfo.name}">
+                        <p class="course-description">${courseInfo.description}</p>
+                        <button class="button open-course-button" onclick="openCourse('${courseInfo.file}')">Open Course</button>
+                    `;
+                    enrolledCoursesContainer.appendChild(courseDiv);
+                }
+            });
+        } else {
+            enrolledCoursesContainer.innerHTML = '<p>No courses enrolled yet!</p>';
+        }
+
+        function openCourse(file) {
+            window.location.href = file;
+        }
+
+        function toggleMobileMenu() {
+      const mobileNav = document.querySelector('.mobile-nav');
+      mobileNav.style.display = mobileNav.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Close mobile menu when switching to desktop mode
+    window.addEventListener('resize', () => {
+      const mobileNav = document.querySelector('.mobile-nav');
+      if (window.innerWidth >= 768) {
+        mobileNav.style.display = 'none';
+      }
+    }); 
+    </script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Courses</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, box-shadow 1s ease;
+            animation: backgroundLighting 5s infinite alternate;
+        }
+    
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+            font-size: 1.7rem; /* Reduced size for smaller header */
+        }
+    
+        .courses-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+    
+        .course-card {
+            background: linear-gradient(#ffffff);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            transform: scale(0.9);
+            animation: fadeInZoom 0.5s ease forwards, courseLighting 1.5s infinite alternate;
+        }
+    
+        @keyframes fadeInZoom {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    
+        @keyframes courseLighting {
+            0% {
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+                transform: scale(1);
+            }
+            100% {
+                box-shadow: 0 0 25px rgba(255, 255, 255, 1);
+                transform: scale(1.05);
+            }
+        }
+    
+        @keyframes backgroundLighting {
+            0% {
+                background-color: #f0f4f8;
+            }
+            25% {
+                background-color: #ffe6e6;
+            }
+            50% {
+                background-color: #e0ffff;
+            }
+            75% {
+                background-color: #e6f7ff;
+            }
+            100% {
+                background-color: #f0f4f8;
+            }
+        }
+    
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg,  white, #2C7D89 100%);
+        }
+    
+        .course-card img {
+    width: 100%;
+    height: 200px; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure the entire image is visible */
+    border-radius: 10px;
+     /* Optional: Adds a background to fill empty space */
+}
+
+    
+        .course-title {
+            margin: 15px 0 10px;
+            font-size: 1.2rem; /* Reduced size for course title */
+            font-weight: bold;
+        }
+    
+        .enroll-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 30px;
+            background: linear-gradient(45deg,  #21636d, white);
+            color: white;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255, 122, 24, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+    
+        .enroll-button:hover {
+            background: linear-gradient(45deg, white,#21636d);
+            transform: scale(1.05);
+        }
+    
+        .enroll-button span {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+    
+        .enroll-button:hover span {
+            transform: translateX(5px);
+        }
+    
+        .enroll-button::after {
+            content: "➔";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    
+        .enroll-button:hover::after {
+            opacity: 1;
+            transform: translate(20px, -50%);
+        }
+    
+        /* Enrolled Button State */
+        .enroll-button.enrolled {
+            background: #4caf50;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+        }
+    
+        .enroll-button.enrolled span {
+            transform: translateX(0);
+        }
+    
+        .enroll-button.enrolled::after {
+            content: "✔";
+            opacity: 1;
+            transform: translate(0, -50%);
+        }
+     
+        /* Fade out effect for animation */
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+       header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color:  #2C7D89;
+      color: #fff;
+      padding: 10px 20px;
+      
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-left img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+    }
+
+    .menu-icon {
+      font-size: 1.8rem;
+      cursor: pointer;
+      display: block;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background-color:  #7ad8e7;
+      position: absolute;
+      top: 50px;
+      right: 20px;
+      width: auto;
+      z-index: 10;
+      padding: 5px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px orange(0, 0, 0, 0.2);
+    }
+
+    .mobile-nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .mobile-nav ul li {
+      margin: 0;
+    }
+
+    .mobile-nav ul li a {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #2C7D89;
+      text-decoration: none;
+      background-color: white;
+      border-radius: 5px;
+      text-align: left;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .mobile-nav ul li a:hover {
+      background-color: lightblue;
+      transform: translateY(-2px);
+    }
+
+    .mobile-nav ul li a svg {
+      margin-right: 10px;
+      width: 20px;
+      height: 20px;
+      fill:  #2C7D89;
+    }
+
+    .desktop-nav {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .menu-icon, .mobile-nav {
+        display: none;
+      }
+
+      .desktop-nav {
+        display: flex;
+        gap: 20px;
+      }
+
+      .desktop-nav a {
+        display: flex;
+        align-items: center;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1rem;
+        padding: 10px 15px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .desktop-nav a:hover {
+        background-color:  #a4eef9;
+        color:  #2C7D89;
+        border-radius: 5px;
+      }
+
+      .desktop-nav a svg {
+        margin-right: 8px;
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+      }
+    }    
+    </style>
+    
+</head>
+<body>
+    <header>
+        <div class="header-left">
+          <!-- <img src="https://via.placeholder.com/40" alt="Header Icon" /> -->
+          <div class="logo">Learn Hub</div>
+        </div>
+        <div class="menu-icon" onclick="toggleMobileMenu()">☰</div>
+        <nav class="mobile-nav">
+          <ul>
+            <li><a href="index.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</a></li>
+            <li><a href="#Explore"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 17.93V13h4.64A8 8 0 0113 19.93zM11 19.93A8 8 0 016.36 13H11zm6.64-11H13V4.07A8 8 0 0117.64 8.93zM11 4.07V9H6.36A8 8 0 0111 4.07z"/></svg>Explore</a></li>
+            <li><a href="learning.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 2H2v2h20zm0 4H2v2h20zm0 4H2v8h6v2h8v-2h6zM9 18v-4h6v4z"/></svg>Courses</a></li>
+            <li><a href="#profile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12a5 5 0 10-5-5 5 5 0 005 5zm0 2c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>Profile</a></li>
+          </ul>
+        </nav>
+        <nav class="desktop-nav">
+          <a href="index.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</a>
+          <a href="#Explore"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm1 17.93V13h4.64A8 8 0 0113 19.93zM11 19.93A8 8 0 016.36 13H11zm6.64-11H13V4.07A8 8 0 0117.64 8.93zM11 4.07V9H6.36A8 8 0 0111 4.07z"/></svg>Explore</a>
+          <a href="learning.html"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 2H2v2h20zm0 4H2v2h20zm0 4H2v8h6v2h8v-2h6zM9 18v-4h6v4z"/></svg>Courses</a>
+          <a href="#profile"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12a5 5 0 10-5-5 5 5 0 005 5zm0 2c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>Profile</a>
+        </nav>
+      </header>
+   
+    <h1>Enrolled Courses</h1>
+
+    <div class="courses-container" id="coursesContainer"></div>
+
+    <script>
+      const courses = [
+            { name: "Android Development", image: "temp/android.jpg", id: 1, description: "Create mobile applications for Android devices.", file: "Courses/Andriod-Development.html" },
+            { name: "Artificial Intelligence", image: "temp/AI.jpg", id: 2, description: "Study the fundamentals of AI and machine learning.", file: "Courses/Artificial-Intelligence.html" },
+            { name: "Cybersecurity", image: "temp/cs.jpg", id: 3, description: "Learn about cybersecurity threats and mitigation strategies.", file: "Courses/Cybersecurity.html" },
+            { name: "Data Science", image: "temp/ds.jpg", id: 4, description: "Explore the world of data and learn how to analyze it.", file: "Courses/Data-Science.html" },
+            { name: "DevOps", image: "temp/devops.jpg", id: 5, description: "Understand the principles of DevOps and CI/CD pipelines.", file: "Courses/Devops.html" },
+            { name: "Java Programming", image: "temp/java1.webp", id: 6, description: "Learn Java programming for building scalable applications.", file: "Courses/Java-Programming.html" },
+            { name: "Machine Learning", image: "temp/ml.jpg", id: 7, description: "Dive into machine learning algorithms and techniques.", file: "Courses/Machine-Learning.html" },
+            { name: "Natural Language Processing", image: "temp/NLP-image.webp", id: 8, description: "Learn about text processing and language models.", file: "Courses/Natural-Language-Processing.html" },
+            { name: "Python Programming", image: "temp/OIP.jpg", id: 9, description: "Master Python programming for automation and data analysis.", file: "Courses/Python-Programming.html" },
+            { name: "SQL Database", image: "temp/sql.jpg", id: 10, description: "Understand SQL queries and database management.", file: "Courses/SQL-Database.html" },
+            { name: "Statistics", image: "temp/statistics.jpg", id: 11, description: "Learn the basics of statistics and its real-world applications.", file: "Courses/Statistics.html" },
+            { name: "Web Development", image: "temp/web img.webp", id: 12, description: "Learn web development with HTML, CSS, and JavaScript.", file: "Courses/Web-Development.html" }
+        ];
+
+sessionStorage.setItem('courses', JSON.stringify(courses));
+
+const container = document.getElementById('coursesContainer');
+
+courses.forEach((course, index) => {
+    const courseDiv = document.createElement('div');
+    courseDiv.className = 'course-card';
+    let enrolledCourses = JSON.parse(sessionStorage.getItem('enrolledCourses')) || [];
+
+    const isEnrolled = enrolledCourses.some(c => c.id === course.id);
+    const buttonClass = isEnrolled ? 'enroll-button enrolled' : 'enroll-button';
+
+    // Staggered delay for each course card animation
+    courseDiv.style.animationDelay = `${index * 0.3}s`;
+
+    courseDiv.innerHTML = `
+        <img src="${course.image}" alt="${course.name}">
+        <div class="course-title">${course.name}</div>
+        <p>${course.description}</p>
+        <button class="${buttonClass}" onclick="enrollCourse(${course.id}, '${course.name}', '${course.file}')"><span>${isEnrolled ? 'Enrolled' : 'Enroll'}</span></button>
+    `;
+    container.appendChild(courseDiv);
+});
+
+function enrollCourse(courseId, courseName, courseFile) {
+    let enrolledCourses = JSON.parse(sessionStorage.getItem('enrolledCourses')) || [];
+
+    if (!enrolledCourses.some(course => course.id === courseId)) {
+        enrolledCourses.push({ id: courseId, name: courseName });
+        sessionStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourses));
+        alert(`${courseName} enrolled successfully!`);
+
+        // Add animation for button (fade out)
+        const button = event.target;
+        button.style.animation = "fadeOut 0.5s ease forwards";
+
+        // After animation, redirect to learning page
+        setTimeout(() => {
+            window.location.href = `learning.html?courseId=${courseId}`;
+        }, 500); // Wait for the animation to finish before redirect
+    } else {
+        alert(`${courseName} is already enrolled.`);
+    }
+}
+
+function toggleMobileMenu() {
+      const mobileNav = document.querySelector('.mobile-nav');
+      mobileNav.style.display = mobileNav.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Close mobile menu when switching to desktop mode
+    window.addEventListener('resize', () => {
+      const mobileNav = document.querySelector('.mobile-nav');
+      if (window.innerWidth >= 768) {
+        mobileNav.style.display = 'none';
+      }
+    }); 
+
+    </script>
+</body>
+</html>
